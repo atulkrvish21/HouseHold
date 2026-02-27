@@ -1,0 +1,77 @@
+<div class="p-6 bg-gray-50 h-screen flex flex-col">
+
+  <div class="flex justify-between items-end mb-4 flex-shrink-0">
+    <div>
+      <h2 class="text-2xl font-bold text-red-700 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        Entitlement Gap Report
+      </h2>
+      <p class="text-sm text-slate-500">List of households excluded from key government schemes</p>
+    </div>
+
+    <input type="text" 
+           class="block w-64 p-2 text-sm border border-gray-300 rounded-lg shadow-sm" 
+           placeholder="Search Panchayat..." 
+           [(ngModel)]="searchText" 
+           (keyup)="applyFilter()">
+  </div>
+
+  <div class="bg-white rounded-lg shadow border flex-1 overflow-hidden flex flex-col">
+    <div class="overflow-auto flex-1">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-slate-100 text-slate-600 font-semibold uppercase text-xs sticky top-0 z-10 shadow-sm">
+          <tr>
+            <th class="px-4 py-3 border-b">District</th>
+            <th class="px-4 py-3 border-b">Block</th>
+            <th class="px-4 py-3 border-b">Panchayat</th>
+            <th class="px-4 py-3 border-b text-center bg-gray-50">Total HH Surveyed</th>
+            
+            <th class="px-4 py-3 border-b text-right text-red-700 bg-red-50">No Ration Card</th>
+            <th class="px-4 py-3 border-b text-right text-orange-700 bg-orange-50">No Housing</th>
+            <th class="px-4 py-3 border-b text-right text-yellow-700 bg-yellow-50">No Toilet</th>
+            <th class="px-4 py-3 border-b text-right text-purple-700 bg-purple-50">Women Not in SHG</th>
+          </tr>
+        </thead>
+        
+        <tbody class="divide-y divide-slate-100">
+          <tr *ngFor="let item of filteredList" class="hover:bg-slate-50">
+            <td class="px-4 py-2 text-slate-500 text-xs">{{ item.district }}</td>
+            <td class="px-4 py-2 text-slate-500 text-xs">{{ item.block }}</td>
+            <td class="px-4 py-2 font-bold text-slate-700">{{ item.panchayat }}</td>
+            <td class="px-4 py-2 text-center font-mono font-bold">{{ item.totalHouseholds | number }}</td>
+
+            <td class="px-4 py-2 text-right font-mono font-bold" [class.text-red-600]="item.noRationCard > 0">
+               {{ item.noRationCard | number }}
+               <span *ngIf="item.noRationCard > 0" class="text-[10px] text-red-400 ml-1">
+                 ({{ (item.noRationCard / item.totalHouseholds * 100) | number:'1.0-0' }}%)
+               </span>
+            </td>
+
+            <td class="px-4 py-2 text-right font-mono text-orange-700">
+               {{ item.noHousing | number }}
+            </td>
+
+            <td class="px-4 py-2 text-right font-mono text-yellow-700">
+               {{ item.noToilet | number }}
+            </td>
+
+            <td class="px-4 py-2 text-right font-mono text-purple-700">
+               {{ item.womenNotInSHG | number }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-slate-50 border-t p-3 text-sm font-bold text-slate-800 grid grid-cols-8 gap-4 flex-shrink-0">
+        <div class="col-span-3 text-right pr-4 uppercase text-xs pt-1">State Total</div>
+        <div class="text-center font-mono">{{ totals.totalHH | number }}</div>
+        
+        <div class="text-right font-mono text-red-700">{{ totals.noRation | number }}</div>
+        <div class="text-right font-mono text-orange-700">{{ totals.noHousing | number }}</div>
+        <div class="text-right font-mono text-yellow-700">{{ totals.noToilet | number }}</div>
+        <div class="text-right font-mono text-purple-700">{{ totals.womenExcluded | number }}</div>
+    </div>
+
+  </div>
+</div>

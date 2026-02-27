@@ -1,0 +1,52 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-slate-800">Visual Analytics Dashboard</h2>
+    <p class="text-sm text-slate-500">Demographic and entitlement coverage insights</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+    <div class="bg-white p-6 rounded-lg shadow border flex flex-col items-center">
+      <div class="w-full h-64"> <canvas baseChart
+          [data]="pieChartData"
+          [type]="pieChartType"
+          [options]="pieChartOptions">
+        </canvas>
+      </div>
+      <div class="mt-4 text-center text-xs text-slate-500">
+        Shows the breakdown of surveyed households by Social Category.
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow border flex flex-col items-center">
+      <div class="w-full h-64">
+        <canvas baseChart
+          [data]="barChartData"
+          [type]="barChartType"
+          [options]="barChartOptions">
+        </canvas>
+      </div>
+      <div class="mt-4 text-center text-xs text-slate-500">
+        Compares households covered under Rural Housing vs those without.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex gap-4 items-start">
+     <div class="text-blue-600 mt-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+     </div>
+     <div>
+        <h4 class="font-bold text-blue-800 text-sm">Insight Summary</h4>
+        <p class="text-sm text-blue-700 mt-1">
+           The data indicates a high concentration of beneficiaries in the 
+           <b>{{ pieChartData.datasets[0].data[0] > pieChartData.datasets[0].data[1] ? 'SC' : 'ST' }}</b> category. 
+           Housing coverage is currently at 
+           <b>{{ housingCoveragePercent | number:'1.0-0' }}%</b>
+        </p>
+     </div>
+  </div>
+
+</div>

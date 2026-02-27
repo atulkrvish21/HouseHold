@@ -1,0 +1,301 @@
+<div class="h-screen flex flex-col bg-gray-50 p-4">
+  
+  <div class="flex justify-between items-center mb-4 bg-white p-3 rounded shadow-sm">
+    <div>
+        <h2 class="text-xl font-bold text-slate-700"> Report</h2>
+        <p class="text-xs text-slate-500">Total Records: {{ totalRecords | number }}</p>
+    </div>
+    
+    <div class="flex gap-2">
+      <input type="text" placeholder="Search ID / Name..." 
+             [(ngModel)]="filter.searchText" (input)="onFilterChange()"
+             class="border px-3 py-2 rounded text-sm w-64 focus:ring-2 focus:ring-blue-500 outline-none">
+      
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-6 gap-3 mb-4 bg-white p-3 rounded shadow-sm text-sm">
+    <div>
+        <label class="block text-xs text-gray-500 mb-1">From Date</label>
+        <input type="date" [(ngModel)]="filter.fromDate" (change)="onDirectFilterChange()" class="border w-full p-1 rounded">
+    </div>
+    <div>
+        <label class="block text-xs text-gray-500 mb-1">To Date</label>
+        <input type="date" [(ngModel)]="filter.toDate" (change)="onDirectFilterChange()" class="border w-full p-1 rounded">
+    </div>
+    <div>
+        <label class="block text-xs text-gray-500 mb-1">Status</label>
+        <select [(ngModel)]="filter.status" (change)="onDirectFilterChange()" class="form-select border w-full p-1 rounded">
+            <option [ngValue]="null">All Status</option>
+            <option [ngValue]="0">Pending</option>
+            <option [ngValue]="1">Approved</option>
+            <option [ngValue]="10">Rejected</option>
+        </select>
+    </div>
+    <div>
+        <label class="block text-xs text-gray-500 mb-1">District</label>
+        <input type="text" placeholder="Filter District" [(ngModel)]="filter.district" (blur)="onDirectFilterChange()" class="border w-full p-1 rounded">
+    </div>
+     <div>
+        <label class="block text-xs text-gray-500 mb-1">Surveyor (Entry By)</label>
+        <input type="text" placeholder="Username" [(ngModel)]="filter.entryBy" (blur)="onDirectFilterChange()" class="border w-full p-1 rounded">
+    </div>
+    <div class="flex items-end">
+        <button (click)="loadData()" class="text-blue-600 text-xs hover:underline">Refresh List</button>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-auto border rounded shadow-sm bg-white relative">
+    
+    <div *ngIf="loading" class="absolute inset-0 bg-white/80 z-10 flex justify-center items-center">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    </div>
+
+    <table class="min-w-full text-sm text-left border-collapse">
+      <thead class="bg-gray-100 text-gray-600 sticky top-0 z-0 shadow-sm">
+        <tr>
+          <th class="p-3 border-b cursor-pointer hover:bg-gray-200" (click)="onSort('UniqueId')">
+            HH ID <span *ngIf="filter.sortColumn === 'UniqueId'">{{ filter.sortDirection === 'ASC' ? '↑' : '↓' }}</span>
+          </th>
+          <th class="p-3 border-b">Head Name</th>
+          <th class="p-3 border-b">Location</th>
+          <th class="p-3 border-b cursor-pointer hover:bg-gray-200" (click)="onSort('EntryDate')">
+            Entry Date <span *ngIf="filter.sortColumn === 'EntryDate'">{{ filter.sortDirection === 'ASC' ? '↑' : '↓' }}</span>
+          </th>
+          <th class="p-3 border-b">Entry By</th>
+           <th class="p-3 border-b">Status</th>
+          <th class="p-3 border-b text-center">Expand</th>
+        </tr>
+      </thead>
+      
+      <tbody class="divide-y divide-gray-200">
+        <ng-container *ngFor="let item of reportList">
+          
+          <tr class="hover:bg-blue-50 transition-colors cursor-pointer group" 
+              [class.bg-blue-50]="expandedId === item.householdBasicProfile?.uniqueId"
+              (click)="toggleExpand(item.householdBasicProfile?.uniqueId)"> 
+            
+            <td class="p-3 font-mono text-xs text-blue-600 font-bold group-hover:underline">
+              {{ item.householdBasicProfile?.uniqueId }}
+            </td>
+
+            <td class="p-3 font-medium">{{ item.householdBasicProfile?.headOfTheHouseholdNameAsPerAadhar }}</td>
+            
+            <td class="p-3 text-xs text-gray-500">
+               <div>{{ item.householdBasicProfile?.district }}</div>
+               <div>{{ item.householdBasicProfile?.block }}</div>
+            </td>
+            
+            <td class="p-3 whitespace-nowrap">{{ item.householdBasicProfile?.entryDate | date:'mediumDate' }}</td>
+            <td class="p-3 text-gray-500 italic">{{ item.householdBasicProfile?.entryBy }}</td>
+            
+            <td class="p-3">
+              <span [class]="'px-2 py-1 rounded-full text-xs font-semibold ' + getStatusColor(item.householdBasicProfile?.sstatus)">
+                 {{ getStatusLabel(item.householdBasicProfile?.sstatus) }}
+              </span>
+            </td>
+            
+            <td class="p-3 text-center text-gray-400">
+               <span class="transform transition-transform inline-block" [class.rotate-90]="expandedId === item.householdBasicProfile?.uniqueId">
+                 ➤
+               </span>
+            </td>
+          </tr>
+
+          <tr *ngIf="expandedId === item.householdBasicProfile?.uniqueId" class="bg-gray-50 shadow-inner">
+            <td colspan="7" class="p-0">
+              
+              <div *ngIf="!detailsCache[item.householdBasicProfile?.uniqueId]" class="p-8 text-center text-gray-500">
+                 <div class="animate-spin inline-block w-6 h-6 border-2 border-current border-t-transparent rounded-full text-blue-600"></div>
+                 <span class="ml-2">Fetching complete details...</span>
+              </div>
+
+              <div *ngIf="detailsCache[item.householdBasicProfile?.uniqueId] as detail" class="p-4 border-b border-blue-200 animate-fade-in">
+                
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-sm">
+                      
+                      <div class="bg-white p-4 rounded shadow-sm border-l-4 border-blue-500">
+                          <h4 class="font-bold text-gray-700 mb-2 border-b pb-1">Basic Profile</h4>
+                          <div class="grid grid-cols-2 gap-2 text-xs">
+                              <div class="text-gray-500">Head Name:</div><div>{{ detail.householdBasicProfile?.headOfTheHouseholdNameAsPerAadhar }}</div>
+                              <div class="text-gray-500">Gender:</div><div>{{ detail.householdBasicProfile?.headOfTheHouseholdGender }}</div>
+                              <div class="text-gray-500">Category:</div><div>{{ detail.householdBasicProfile?.socialCategory }}</div>
+                              <div class="text-gray-500">Aadhar:</div><div>{{ detail.householdBasicProfile?.aadharNo }}</div>
+                              <div class="text-gray-500">Mobile:</div><div>{{ detail.householdMigrationStatus?.familyContactMobileNo }}</div>
+                              <div class="text-gray-500">GPS Loc:</div><div>{{ detail.householdBasicProfile?.geoLocation || 'N/A' }}</div>
+                          </div>
+                      </div>
+
+                      <div class="bg-white p-4 rounded shadow-sm border-l-4 border-purple-500">
+                          <h4 class="font-bold text-gray-700 mb-2 border-b pb-1">Bank & Women Details</h4>
+                          <div class="grid grid-cols-2 gap-2 text-xs">
+                              <div class="text-gray-500">Bank Name:</div><div>{{ detail.householdBasicProfile?.bankName }}</div>
+                              <div class="text-gray-500">Account No:</div><div>{{ detail.householdBasicProfile?.bankAccountNumber }}</div>
+                              <div class="text-gray-500">IFSC:</div><div>{{ detail.householdBasicProfile?.ifscCodeOrBranch }}</div>
+                              <div class="text-gray-500">Women Member:</div><div>{{ detail.householdBasicProfile?.womenMemberName || 'None' }}</div>
+                              <div class="text-gray-500">In SHG?</div><div>{{ detail.householdBasicProfile?.isWomenCoveredUnderSHG ? 'Yes' : 'No' }}</div>
+                          </div>
+                      </div>
+
+                      <div class="bg-white p-4 rounded shadow-sm border-l-4 border-green-500">
+                          <h4 class="font-bold text-gray-700 mb-2 border-b pb-1">Entitlements & Assets</h4>
+                          <div class="grid grid-cols-2 gap-2 text-xs">
+                              <div class="text-gray-500">Ration Card:</div>
+                              <span [class.text-green-600]="detail.householdBasicProfile?.hasRationCard">{{ detail.householdBasicProfile?.hasRationCard ? 'Yes' : 'No' }}</span>
+                              
+                              <div class="text-gray-500">Job Card:</div>
+                              <span [class.text-green-600]="detail.householdEntitlement?.hasMGNREGSJobCard">{{ detail.householdEntitlement?.hasMGNREGSJobCard ? 'Yes' : 'No' }}</span>
+
+                              <div class="text-gray-500">Housing Scheme:</div>
+                              <span [class.text-green-600]="detail.householdEntitlement?.hasRuralHousingSchemeHouse">{{ detail.householdEntitlement?.hasRuralHousingSchemeHouse ? 'Yes' : 'No' }}</span>
+
+                              <div class="text-gray-500">Electricity:</div>
+                              <span [class.text-green-600]="detail.householdEntitlement?.hasElectricityConnection">{{ detail.householdEntitlement?.hasElectricityConnection ? 'Yes' : 'No' }}</span>
+                              
+                              <div class="text-gray-500">Ayushman:</div>
+                              <span [class.text-green-600]="detail.householdEntitlement?.isCoveredUnderAyushmanBharat">{{ detail.householdEntitlement?.isCoveredUnderAyushmanBharat ? 'Yes' : 'No' }}</span>
+                          </div>
+                      </div>
+
+                      <div class="bg-white p-4 rounded shadow-sm border-l-4 border-yellow-500">
+                          <h4 class="font-bold text-gray-700 mb-2 border-b pb-1">Occupation & Land</h4>
+                          <div class="grid grid-cols-2 gap-2 text-xs">
+                              <div class="text-gray-500">Primary Occ:</div><div>{{ detail.householdOccupationAndLand?.primaryOccupationOfTheFamily }}</div>
+                              <div class="text-gray-500">FRA Status:</div><div>{{ detail.householdOccupationAndLand?.fraClaimantStatus }}</div>
+                              <div class="text-gray-500">FRA Land:</div><div>{{ detail.householdOccupationAndLand?.fra_LandAmountInAcres || 0 }} acres</div>
+                              <div class="text-gray-500">Private Land:</div><div>{{ detail.householdOccupationAndLand?.approximatePrivateLandHolding }}</div>
+                              <div class="text-gray-500">Irrigation:</div><div>{{ detail.householdOccupationAndLand?.isIrrigationFacilityAvailable ? 'Yes' : 'No' }}</div>
+                          </div>
+                      </div>
+
+                      <div class="bg-white p-4 rounded shadow-sm border-l-4 border-red-500 lg:col-span-2">
+                          <h4 class="font-bold text-gray-700 mb-2 border-b pb-1">Migration Status</h4>
+                          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                              <div>
+                                  <div class="text-gray-500">Migrated (Last 3 Yrs)?</div>
+                                  <div class="font-bold text-lg" [class.text-red-600]="detail.householdMigrationStatus?.hasFamilyMemberMigratedLast3Years">
+                                       {{ detail.householdMigrationStatus?.hasFamilyMemberMigratedLast3Years ? 'YES' : 'No' }}
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="text-gray-500">Taken Advance?</div>
+                                  <div>{{ detail.householdMigrationStatus?.takenAdvanceForMigrationFromMiddleman ? 'Yes' : 'No' }}</div>
+                              </div>
+                            <div *ngIf="detail.householdMigrationStatus?.respondentPhotoPathOrUrl">
+                                <div class="text-gray-500 mb-1">Respondent Photo</div>
+                            
+                                <img [src]="detail.householdMigrationStatus?.respondentPhotoPathOrUrl"
+                                    (click)="openImage(detail.householdMigrationStatus?.respondentPhotoPathOrUrl)"
+                                    class="h-24 w-auto object-contain rounded border shadow-sm cursor-zoom-in hover:opacity-90 transition-opacity bg-white">
+                            
+                                <div class="text-[10px] text-blue-600 mt-1 cursor-pointer"
+                                    (click)="openImage(detail.householdMigrationStatus?.respondentPhotoPathOrUrl)">
+                                    Click to Enlarge
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+
+                  </div>
+
+                  <div class="mt-4 bg-white p-4 rounded shadow-sm border-t-4 border-slate-500">
+                      <h4 class="font-bold text-gray-700 mb-2">Family Members ({{ detail.householdFamilyMember?.length || 0 }})</h4>
+                      <div class="overflow-x-auto">
+                          <table class="w-full text-xs text-left">
+                              <thead class="bg-gray-100 font-semibold text-gray-600">
+                                  <tr>
+                                      <th class="p-2 border">Name</th>
+                                      <th class="p-2 border">Age</th>
+                                      <th class="p-2 border">Gender</th>
+                                      <th class="p-2 border">Relationship</th>
+                                      <th class="p-2 border">Qualification</th>
+                                      <th class="p-2 border">Migrated?</th>
+                                      <th class="p-2 border">Skill Interest</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let m of detail.householdFamilyMember" class="border-b">
+                                      <td class="p-2 border">{{ m.name }}</td>
+                                      <td class="p-2 border">{{ m.age }}</td>
+                                      <td class="p-2 border">{{ m.gender }}</td>
+                                      <td class="p-2 border">{{ m.womenMemberRelationshipWithHead || '-' }}</td>
+                                      <td class="p-2 border">{{ m.educationalQualification }}</td>
+                                      <td class="p-2 border">
+                                          <span *ngIf="m.migratedInLast3Years" class="text-white bg-red-500 px-2 py-0.5 rounded text-[10px]">YES</span>
+                                          <span *ngIf="!m.migratedInLast3Years" class="text-gray-400">No</span>
+                                      </td>
+                                      <td class="p-2 border">{{ m.interestInSkillDevelopment || '-' }}</td>
+                                  </tr>
+                                  <tr *ngIf="!detail.householdFamilyMember?.length">
+                                      <td colspan="7" class="p-4 text-center text-gray-400">No family members recorded.</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bg-white border-t p-2 flex justify-between items-center text-sm">
+     <div class="text-gray-500">
+        Showing {{ (filter.pageNumber - 1) * filter.pageSize + 1 }} - {{ (filter.pageNumber - 1) * filter.pageSize + reportList.length }} of {{ totalRecords }}
+     </div>
+     
+     <div class="flex gap-1">
+        <button [disabled]="filter.pageNumber === 1" (click)="onPageChange(filter.pageNumber - 1)"
+                class="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50">Prev</button>
+        
+        <select [(ngModel)]="filter.pageNumber" (change)="loadData()" class="border rounded mx-2">
+            <option *ngFor="let p of [].constructor(totalPages); let i = index" [value]="i+1">
+                Page {{ i + 1 }}
+            </option>
+        </select>
+
+        <button [disabled]="filter.pageNumber === totalPages" (click)="onPageChange(filter.pageNumber + 1)"
+                class="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50">Next</button>
+     </div>
+  </div>
+
+</div>
+
+
+
+
+
+<div *ngIf="previewImageUrl" 
+     class="fixed inset-0 z-[9999] bg-black/90 flex justify-center items-center p-4 backdrop-blur-sm animate-fade-in" 
+     (click)="closeImage()">
+    
+    <button class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full" 
+            (click)="closeImage()" 
+            title="Close Preview">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </button>
+
+    <div class="relative flex flex-col items-center justify-center max-w-6xl max-h-full">
+        
+        <img [src]="previewImageUrl" 
+             class="max-w-full max-h-[85vh] rounded-lg shadow-2xl object-contain border border-white/20" 
+             (click)="$event.stopPropagation()" 
+             alt="Respondent Full View">
+             
+        <div class="mt-4">
+             <span class="bg-white/10 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md border border-white/10">
+                Respondent Photo Preview
+             </span>
+        </div>
+    </div>
+</div>

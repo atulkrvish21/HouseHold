@@ -1,0 +1,415 @@
+<div class="container mt-4 mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary">{{ editMode ? 'Edit Household' : 'New Household Entry' }}</h2>
+    <span class="badge bg-secondary" *ngIf="formData.householdBasicProfile.geoLocation">
+      📍 GPS Captured
+    </span>
+  </div>
+
+<div *ngIf="message && !validationErrors.length" class="alert alert-success">
+  {{ message }}
+</div>
+
+<div *ngIf="message && validationErrors.length > 0" class="alert alert-danger">
+  <strong>{{ message }}</strong>
+  <ul class="mt-2 mb-0">
+    <li *ngFor="let err of validationErrors">
+      {{ err }}
+    </li>
+  </ul>
+</div>
+
+  <form (ngSubmit)="submitForm()" ngNativeValidate>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-primary text-white">1. Basic Profile & Location</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">District</label>
+          
+             <select  class="form-select"  [(ngModel)]="formData.householdBasicProfile.district" #districtSelect (ngModelChange)="ondistrictChange($event)" name="district">
+      <option value="">--Select--</option>
+      <option *ngFor="let option of ddldistrictList" [value]="option.districtCode">{{ option.districtName }}</option>
+    </select>
+          </div>
+          
+          <div class="col-md-3">
+            <label class="form-label">Block</label>
+            <select  class="form-select"  [(ngModel)]="formData.householdBasicProfile.block" #blockSelect (ngModelChange)="onblockChange($event)" name="block">
+      <option value="">--Select--</option>
+      <option *ngFor="let option of ddlBlockList" [value]="option.blockCode">{{ option.blockName }}</option>
+    </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Gram Panchayat</label>
+            <select  class="form-select"  [(ngModel)]="formData.householdBasicProfile.gramPanchayat" #gpSelect  (ngModelChange)="onpanchayatChange($event)"  name="Panchayat">
+      <option value="">--Select--</option>
+      <option *ngFor="let option of ddlPanchayatList" [value]="option.panchayatCode">{{ option.panchayatName }}</option>
+    </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Revenue Village</label>
+             <select  class="form-select"  [(ngModel)]="formData.householdBasicProfile.revenueVillage" #villageSelect  name="village">
+      <option value="">--Select--</option>
+      <option *ngFor="let option of ddlVillageList" [value]="option.villageCode">{{ option.villageName }}</option>
+    </select>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div class="col-md-4">
+            <label class="form-label">Head Name (As per Aadhar)</label>
+            <input type="text" class="form-control" [(ngModel)]="formData.householdBasicProfile.headOfTheHouseholdNameAsPerAadhar" name="headName">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Gender</label>
+            <select class="form-select" [(ngModel)]="formData.householdBasicProfile.headOfTheHouseholdGender" name="headGender">
+              <option *ngFor="let g of headgenderOptions" [value]="g">{{g}}</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Aadhar No</label>
+            <input type="text" class="form-control" maxlength="12" [(ngModel)]="formData.householdBasicProfile.aadharNo" name="aadhar">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Social Category</label>
+            <select class="form-select" [(ngModel)]="formData.householdBasicProfile.socialCategory" name="cat">
+              <option *ngFor="let c of socialCategories" [value]="c">{{c}}</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Bank Account No</label>
+            <input type="text" class="form-control" [(ngModel)]="formData.householdBasicProfile.bankAccountNumber" name="bankAcc">
+            
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Bank Name</label>
+             <select  class="form-select"  [(ngModel)]="formData.householdBasicProfile.bankName" #bankSelect (ngModelChange)="onbankChange($event)" name="bankname">
+      <option value="">--Select--</option>
+      <option *ngFor="let option of ddlBankList" [value]="option.bankName">{{ option.bankName }}</option>
+    </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">IFSC Code</label>
+            
+             <select  class="form-select"  [(ngModel)]="formData.householdBasicProfile.ifscCodeOrBranch" #bankifscSelect name="ifsc">
+      <option value="">--Select--</option>
+      <option *ngFor="let option of ddlBankiscodeList" [value]="option.ifsCode">{{option.branchName}}-{{ option.ifsCode }}</option>
+    </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-info text-white">2. Women Member Details</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="formData.householdBasicProfile.womenMemberName" name="wName">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Age</label>
+            <input type="number" class="form-control" [(ngModel)]="formData.householdBasicProfile.womenMemberAge" name="wAge">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Marital Status</label>
+            <select class="form-select" [(ngModel)]="formData.householdBasicProfile.womenMemberMaritalStatus" name="wMarital">
+              <option *ngFor="let m of maritalStatuses" [value]="m">{{m}}</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Relation to Head</label>
+            <select class="form-select" [(ngModel)]="formData.householdBasicProfile.womenMemberRelationshipWithHead" name="wRel">
+              <option *ngFor="let r of relationships" [value]="r">{{r}}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <div class="form-check mt-3">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdBasicProfile.isWomenCoveredUnderSHG" name="shg">
+              <label class="form-check-label">Is covered under SHG?</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdBasicProfile.isWomenCoveredUnderSubhadraYojana" name="subhadra">
+              <label class="form-check-label">Is covered under Subhadra Yojana?</label>
+            </div>
+             <div class="col-md-6">
+               <label class="form-label">Total Number of Family Members</label>
+              <input class="form-control" type="number" [(ngModel)]="formData.householdBasicProfile.totalFamilyMembers" name="familyMembers">
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-success text-white">3. Entitlements & Schemes</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdBasicProfile.hasRationCard" name="ration">
+              <label class="form-check-label">Has Ration Card?</label>
+            </div>
+            <input *ngIf="formData.householdBasicProfile.hasRationCard" type="text" class="form-control mt-2" placeholder="Card Number" [(ngModel)]="formData.householdBasicProfile.rationCardNumber" name="rationNo">
+          </div>
+
+          <div class="col-md-3">
+             <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.hasMGNREGSJobCard" name="jobcard">
+              <label class="form-check-label">Has MGNREGS Job Card?</label>
+            </div>
+            <input *ngIf="formData.householdEntitlement.hasMGNREGSJobCard" type="text" class="form-control mt-2" placeholder="Job Card No" [(ngModel)]="formData.householdEntitlement.fullJobCardNumber" name="jobNo">
+          </div>
+
+          <div class="col-md-3">
+             <label class="form-label">Drinking Water</label>
+             <select class="form-select" [(ngModel)]="formData.householdBasicProfile.drinkingWaterSource" name="water">
+               <option *ngFor="let w of waterSources" [value]="w">{{w}}</option>
+             </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Kishan Scheme Coverage</label>
+           
+             <select class="form-select" [(ngModel)]="formData.householdEntitlement.kishanSchemeCoverage" name="kishan">
+              <option *ngFor="let m of kishanScheme" [value]="m">{{m}}</option>
+            </select>
+          </div>
+
+          <div class="col-12"><hr></div>
+
+          <div class="col-md-4">
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.hasRuralHousingSchemeHouse" name="h1"><label>Rural Housing Scheme House</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.hasIndividualHouseholdLatrine" name="h2"><label>Individual Latrine</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.hasElectricityConnection" name="h3"><label>Electricity Connection</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdBasicProfile.hasUjjwalaLPGConnection" name="h4"><label>Ujjwala LPG</label></div>
+          </div>
+          <div class="col-md-4">
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.hasJanDhanYojanaAccount" name="e1"><label>Jan Dhan Account</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.isCoveredUnderAyushmanBharat" name="e2"><label>Ayushman Bharat</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdBasicProfile.hasLabourCard" name="e3"><label>Labour Card</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdBasicProfile.isCoveredUnderNSKY" name="e4"><label>NSKY Covered</label></div>
+          </div>
+          <div class="col-md-4">
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.isEnrolledUnderShramYogiMaandhan" name="i1"><label>Shram Yogi Maandhan</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.isCoveredUnderPMJJBY" name="i2"><label>PMJJBY (18-50 yrs)</label></div>
+             <div class="form-check"><input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdEntitlement.isCoveredUnderPMSBY" name="i3"><label>PMSBY (18-70 yrs)</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-warning text-dark">4. Occupation & Land</div>
+      <div class="card-body">
+         <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Primary Occupation</label>
+                <select class="form-select" [(ngModel)]="formData.householdOccupationAndLand.primaryOccupationOfTheFamily" name="occ">
+                    <option *ngFor="let o of occupations" [value]="o">{{o}}</option>
+                </select>
+            </div>
+            <div *ngIf="formData.householdOccupationAndLand.primaryOccupationOfTheFamily === 'Other'" class="col-md-6">
+                <label class="form-label">Other Occupation Details</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.householdOccupationAndLand.otherPrimaryOccupationDetails" name="occOther">
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdOccupationAndLand.isFamilyInvolvedInWeavingOrHandloom" name="weave">
+                    <label>Involved in Weaving/Handloom?</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdOccupationAndLand.isFamilyCoveredUnderPOHI_LoomsScheme" name="pohi">
+                    <label>Covered under POHI/Looms?</label>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">FRA Claimant Status</label>
+                
+                  <select class="form-select" [(ngModel)]="formData.householdOccupationAndLand.fraClaimantStatus" name="fra">
+                    <option *ngFor="let o of FRAClaimStatus" [value]="o">{{o}}</option>
+                </select>
+            </div>
+             <div *ngIf="formData.householdOccupationAndLand.fraClaimantStatus === 'FRA Claimant'" class="col-md-4">
+                <label class="form-label">FRA Land (Acres)</label>
+                <input type="number" min="0.5" 
+         max="5" 
+         step="0.1" class="form-control" [(ngModel)]="formData.householdOccupationAndLand.fra_LandAmountInAcres" name="fraLand">
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdOccupationAndLand.ownsHomesteadPattaLand" name="patta">
+                    <label>Owns Homestead Patta Land?</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                 <label class="form-label">Approx Private Land</label>
+                
+                  <select class="form-select" [(ngModel)]="formData.householdOccupationAndLand.approximatePrivateLandHolding" name="pLand">
+                    <option *ngFor="let o of PrivateHolding" [value]="o">{{o}}</option>
+                </select>
+            </div>
+             <div class="col-md-4">
+                 <label class="form-label">Livestock Activity</label>
+                
+                   <select class="form-select" [(ngModel)]="formData.householdOccupationAndLand.involvedInLivestockActivity" name="live">
+                    <option *ngFor="let o of LivestockActivity" [value]="o">{{o}}</option>
+                </select>
+            </div>
+
+             <div class="col-md-6">
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdOccupationAndLand.isIrrigationFacilityAvailable" name="irrig">
+                    <label>Irrigation Facility Available?</label>
+                </div>
+
+                <select *ngIf="formData.householdOccupationAndLand.isIrrigationFacilityAvailable" class="form-select" [(ngModel)]="formData.householdOccupationAndLand.sourcesOfIrrigation" name="irrigSrc">
+                    <option *ngFor="let o of SourceOfIrrigation" [value]="o">{{o}}</option>
+                </select>
+               
+             </div>
+         </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-danger text-white">5. Migration & Respondent</div>
+      <div class="card-body">
+        <div class="row g-3">
+             <div class="col-md-12">
+                 <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdMigrationStatus.hasFamilyMemberMigratedLast3Years" name="mig">
+                    <label class="form-check-label fw-bold">Has any family member migrated in last 3 years?</label>
+                 </div>
+             </div>
+
+             <div class="col-12 row bg-light p-3 border rounded mx-1" *ngIf="formData.householdMigrationStatus.hasFamilyMemberMigratedLast3Years">
+                <div class="col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdMigrationStatus.takenAdvanceForMigrationFromMiddleman" name="adv">
+                        <label>Taken advance from Middleman?</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdMigrationStatus.minorChildrenAccompaniedMigration" name="child">
+                        <label>Minor children accompanied?</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="formData.householdMigrationStatus.womenMembersMigrated" name="womMig">
+                        <label>Women members migrated?</label>
+                    </div>
+                </div>
+             </div>
+
+             <div class="col-md-4">
+                <label class="form-label">Family Contact Mobile</label>
+                <input type="tel" class="form-control" [(ngModel)]="formData.householdMigrationStatus.familyContactMobileNo" name="mob" pattern="[0-9]{10}">
+             </div>
+             <div class="col-md-4">
+                <label class="form-label">Respondent Identity</label>
+             
+                  <select class="form-select" [(ngModel)]="formData.householdMigrationStatus.respondentIdentity" name="resp">
+                    <option *ngFor="let o of RespondantIdentity" [value]="o">{{o}}</option>
+                </select>
+             </div>
+            <div class="col-md-4">
+   <label class="form-label fw-bold text-danger">Upload Photo</label>
+
+   <div *ngIf="editMode && existingPhotoUrl" class="mb-2">
+     <img [src]="existingPhotoUrl" alt="Current Photo" class="img-thumbnail" style="height: 100px;">
+     <span class="text-muted text-xs d-block">Current Photo</span>
+   </div>
+
+   <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*" 
+          [required]="!editMode"> 
+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+        <span>6. Family Members Details</span>
+        <button type="button" class="btn btn-light btn-sm" (click)="addFamilyMember()">+ Add Member</button>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 20%">Name</th>
+                        <th style="width: 10%">Age</th>
+                        <th style="width: 10%">Gender</th>
+                        <th style="width: 10%">Education</th>
+                        <th style="width: 10%">Migration in last 3 years?</th>
+                        <th style="width: 10%">State</th>
+                        <th style="width: 15%">Nature/ Sector of engagement at destination during migration?</th>
+                        <th style="width: 10%">Period of migration?</th>
+                        <th style="width: 20%">What was the monthly remittance during migration (In Rs)?</th>
+                        <th style="width: 10%">Interested for skill development</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let m of formData.householdFamilyMember; let i=index">
+                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="m.name" [name]="'mn'+i" placeholder="Name"></td>
+                        <td><input type="number" class="form-control form-control-sm" [(ngModel)]="m.age" [name]="'ma'+i" placeholder="Age"></td>
+                        <td>
+                            <select class="form-select form-select-sm" [(ngModel)]="m.gender" [name]="'mg'+i">
+                                <option *ngFor="let g of genderOptions" [value]="g">{{g}}</option>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="m.educationalQualification" [name]="'me'+i"></td>
+                        <td>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="m.migratedInLast3Years" [name]="'mmig'+i">
+                          
+                            </div>
+                         
+                        </td>
+                        <td><select class="form-select form-select-sm" [(ngModel)]="m.destinationState" [name]="'mst'+i">
+                                <option *ngFor="let s of StateListMaster" [value]="s">{{s}}</option>
+                            </select></td>
+                             <td><select class="form-select form-select-sm" [(ngModel)]="m.sectorOfEngagementDuringMigration" [name]="'msec'+i">
+                                <option *ngFor="let s of NatureofEngagement" [value]="s">{{s}}</option>
+                            </select></td>
+
+                            
+                          <td><select class="form-select form-select-sm" [(ngModel)]="m.periodOfMigration" [name]="'mper'+i">
+                                <option *ngFor="let s of PeriodOfMigration" [value]="s">{{s}}</option>
+                            </select></td>
+                           <td><input type="number" class="form-control form-control-sm" [(ngModel)]="m.monthlyRemittanceDuringMigration" [name]="'mrem'+i"></td>  
+                            <td><select class="form-select form-select-sm" [(ngModel)]="m.interestInSkillDevelopment" [name]="'minterst'+i">
+                                <option *ngFor="let s of SkillDevelopment" [value]="s">{{s}}</option>
+                            </select></td>
+                        <td><button type="button" class="btn btn-danger btn-sm" (click)="removeFamilyMember(i)">X</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="formData.householdFamilyMember.length === 0" class="text-center text-muted py-3">
+            No family members added. Click "+ Add Member" to begin.
+        </div>
+      </div>
+    </div>
+
+    <div class="d-grid gap-2 mb-5">
+        <button type="submit" class="btn btn-success btn-lg py-3" [disabled]="isSubmitting">
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
+            {{ isSubmitting ? 'Submitting Data...' : 'Submit Household Survey' }}
+        </button>
+    </div>
+
+  </form>
+</div>

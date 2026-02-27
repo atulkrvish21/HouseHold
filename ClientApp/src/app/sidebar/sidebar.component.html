@@ -1,0 +1,145 @@
+<aside class="fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-200 flex flex-col shadow-xl transition-transform duration-300 lg:translate-x-0"
+       [ngClass]="{ '-translate-x-full': !isOpen }">
+
+  <div class="p-6 border-b border-slate-800">
+    <h2 class="text-indigo-400 font-bold tracking-tight text-lg">HH Survey</h2>
+    <p class="text-[10px] text-slate-500 uppercase font-semibold tracking-widest">Field Application</p>
+  </div>
+
+  <nav class="mt-4 px-4 flex flex-col gap-1 text-sm">
+
+  <a
+    routerLink="/dashboard"
+    routerLinkActive="bg-indigo-600/20 text-white border-l-4 border-indigo-500"
+    class="flex items-center justify-between
+           px-3 py-2
+           rounded-md
+           text-slate-300
+           hover:bg-slate-700 hover:text-white
+           transition">
+    Dashboard
+  </a>
+
+  <!-- Parent -->
+  <button
+    (click)="toggleMenu('household')"
+    class="flex items-center justify-between
+           px-3 py-2
+           rounded-md
+           font-semibold
+           text-slate-200
+           hover:bg-slate-700
+           transition">
+
+    <span>Households</span>
+    <span
+      class="text-xs transition-transform"
+      [ngClass]="{ 'rotate-90': openMenu === 'household' }">
+      ▶
+    </span>
+  </button>
+
+  <!-- Submenu -->
+  <div *ngIf="openMenu === 'household'"
+       class="ml-3 pl-3 border-l border-slate-600 flex flex-col gap-1">
+
+    <a
+      routerLink="/household-entry"
+      routerLinkActive="bg-indigo-600/20 text-white"
+      class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+      Add Household
+    </a>
+
+    <a
+      routerLink="/household-approval"
+      routerLinkActive="bg-indigo-600/20 text-white"
+      class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+      Pending for Approval
+    </a>
+
+  </div>
+
+
+
+<button
+    (click)="toggleMenu('report')"
+    class="flex items-center justify-between
+           px-3 py-2
+           rounded-md
+           font-semibold
+           text-slate-200
+           hover:bg-slate-700
+           transition">
+
+    <span>Reports</span>
+    <span
+      class="text-xs transition-transform"
+      [ngClass]="{ 'rotate-90': openMenu === 'report' }">
+      ▶
+    </span>
+  </button>
+
+  <!-- Submenu -->
+  <div *ngIf="openMenu === 'report'"
+       class="ml-3 pl-3 border-l border-slate-600 flex flex-col gap-1">
+
+    <a
+      routerLink="/household-report"
+      routerLinkActive="bg-indigo-600/20 text-white"
+      class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+       Household
+    </a>
+
+     <a
+      routerLink="/gap-report"
+      routerLinkActive="bg-indigo-600/20 text-white"
+      class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+       Entitlement Gap Report
+    </a>
+ <a
+      routerLink="/panchayat-progress"
+      routerLinkActive="bg-indigo-600/20 text-white"
+      class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+       Survey Submission Report
+    </a>
+    <a
+      routerLink="/household-approval"
+      routerLinkActive="bg-indigo-600/20 text-white"
+      class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+     Migration Survey
+    </a>
+
+  </div>
+
+
+
+</nav>
+
+
+  <div class="p-4 border-t border-slate-800">
+    <a routerLink="/change-password" class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+      Change Password
+    </a>
+  </div>
+   <div class="p-4 border-t border-slate-800">
+    <a (click)="logout()" class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+      Logout
+    </a>
+  </div>
+</aside>

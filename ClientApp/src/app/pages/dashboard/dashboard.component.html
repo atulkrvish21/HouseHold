@@ -1,0 +1,54 @@
+<div *ngIf="loading" class="text-slate-500">
+  Loading dashboard...
+</div>
+
+<div *ngIf="error" class="text-red-600">
+  {{ error }}
+</div>
+<h5>Overall</h5> <hr>
+<div *ngIf="!loading && stats" class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-3 mb-4">
+
+  <div class="bg-white rounded shadow p-4">
+    <p class="text-sm text-gray-500">Total Households</p>
+    <p class="text-2xl font-bold">{{ stats.totalHousehold }}</p>
+  </div>
+
+  <div class="bg-white rounded shadow p-4">
+    <p class="text-sm text-gray-500">Approved</p>
+    <p class="text-2xl font-bold text-green-600">{{ stats.approved }}</p>
+  </div>
+
+  <div class="bg-white rounded shadow p-4">
+    <p class="text-sm text-gray-500">Pending</p>
+    <p class="text-2xl font-bold text-red-600">
+      {{ stats.pending }}
+    </p>
+  </div>
+  </div>
+
+  <h5>Current Month</h5>
+<hr>
+  <div *ngIf="!loading && stats" class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-3">
+
+
+ <div class="bg-white rounded shadow p-4">
+    <p class="text-sm text-gray-500">Total Households</p>
+    <p class="text-2xl font-bold">{{ stats.totalHouseholdFTM }}</p>
+  </div>
+
+  <div class="bg-white rounded shadow p-4">
+    <p class="text-sm text-gray-500">Approved</p>
+    <p class="text-2xl font-bold  text-green-600">{{ stats.approvedFTM }}</p>
+  </div>
+
+  <div class="bg-white rounded shadow p-4">
+    <p class="text-sm text-gray-500">Pending</p>
+    <p class="text-2xl font-bold  text-red-600">
+      {{ stats.pendingFTM }}
+    </p>
+  </div>
+
+ 
+
+</div>
+<app-dashboard-chart></app-dashboard-chart>

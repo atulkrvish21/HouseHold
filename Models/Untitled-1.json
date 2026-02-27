@@ -1,0 +1,92 @@
+{
+ "householdBasicProfile": {
+   "district": "Cuttack",
+   "block": "Banki",
+   "gramPanchayat": "Kalapathar",
+   "revenueVillage": "Nuagaon",
+   "hamlet": "Ward-3",
+   "headOfTheHouseholdNameAsPerAadhar": "Atul Kumar Vishwakarma",
+   "headOfTheHouseholdGender": "Male",
+   "aadharNo": "123456789012",
+   "socialCategory": "General",
+   "bankAccountNumber": "12345678901",
+   "bankName": "State Bank of India",
+   "ifscCodeOrBranch": "SBIN0001234",
+   "womenMemberName": "Sita Sahu",
+   "womenMemberAge": 32,
+   "womenMemberMaritalStatus": "Married",
+   "womenMemberRelationshipWithHead": "Spouse",
+   "isWomenCoveredUnderSHG": true,
+   "isWomenCoveredUnderSubhadraYojana": false,
+   "totalFamilyMembers": 4,
+   "hasRationCard": true,
+   "rationCardNumber": "RC123456789",
+   "drinkingWaterSource": "Well",
+   "hasUjjwalaLPGConnection": true,
+   "hasLabourCard": false,
+   "isCoveredUnderNSKY": false,
+   "geoLocation": "20.4625,85.8828",
+   "entryBy": "AtulV"
+ },
+ "householdEntitlement": {
+   "kishanSchemeCoverage": "PM KishaN",
+   "hasRuralHousingSchemeHouse": true,
+   "hasIndividualHouseholdLatrine": true,
+   "hasElectricityConnection": true,
+   "hasMGNREGSJobCard": true,
+   "fullJobCardNumber": "OD-12-345-678",
+   "hasJanDhanYojanaAccount": true,
+   "isCoveredUnderAyushmanBharat": true,
+   "isEnrolledUnderShramYogiMaandhan": false,
+   "isCoveredUnderPMJJBY": true,
+   "isCoveredUnderPMSBY": true
+ },
+ "householdMigrationStatus": {
+   "hasFamilyMemberMigratedLast3Years": true,
+   "takenAdvanceForMigrationFromMiddleman": false,
+   "minorChildrenAccompaniedMigration": false,
+   "womenMembersMigrated": false,
+   "familyContactMobileNo": "9876543210",
+   "respondentIdentity": "Migrant Person himself",
+   "respondentPhotoPathOrUrl": "https://example.com/photos/respondent.jpg"
+ },
+ "householdOccupationAndLand": {
+   "primaryOccupationOfTheFamily": "Agriculture",
+   "otherPrimaryOccupationDetails": null,
+   "isFamilyInvolvedInWeavingOrHandloom": false,
+   "isFamilyCoveredUnderPOHI_LoomsScheme": false,
+   "fraClaimantStatus": "FRA Claimant",
+   "fra_LandAmountInAcres": 1.75,
+   "ownsHomesteadPattaLand": true,
+   "approximatePrivateLandHolding": "0- 0.5 Acr",
+   "isIrrigationFacilityAvailable": true,
+   "sourcesOfIrrigation": "Canal, Borewell",
+   "involvedInLivestockActivity": "Poultry,Goatery"
+ },
+ "householdFamilyMember": [
+   {
+     "name": "Ramesh Chandra Sahu",
+     "age": 38,
+     "gender": "Male",
+     "educationalQualification": "10th Pass",
+     "migratedInLast3Years": false,
+     "DestinationState":"Odisha",
+     "SectorOfEngagementDuringMigration":"Brick Kiln",
+     "monthlyRemittanceDuringMigration": 0,
+     "interestInSkillDevelopment": "None",
+      "periodOfMigration": "1-3 months"
+   },
+   {
+     "name": "Sita Sahu",
+     "age": 32,
+     "gender": "Female",
+     "educationalQualification": "10th Pass",
+     "migratedInLast3Years": true,
+     "destinationState": "Odisha",
+     "sectorOfEngagementDuringMigration": "Brick Kiln",
+     "periodOfMigration": "1-3 months",
+     "monthlyRemittanceDuringMigration": 8000,
+     "interestInSkillDevelopment": "DDUGKY"
+   }
+ ]
+}

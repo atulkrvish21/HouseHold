@@ -1,0 +1,22 @@
+<div class="flex min-h-screen bg-gray-100">
+
+  <!-- Sidebar -->
+  <app-sidebar
+    [isOpen]="sidebarOpen"
+    [isAdmin]="isAdmin"
+    *ngIf="isNotLoginPage()"
+    >
+  </app-sidebar>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col" [ngClass]="{ 'lg:ml-64': isNotLoginPage() }">
+
+    <app-header  *ngIf="isNotLoginPage()" (toggleSidebar)="sidebarOpen = !sidebarOpen"></app-header>
+
+    <main class="p-4">
+      <app-notification></app-notification>
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ValidationRules>
+
+  <!-- ============================= -->
+  <!-- HOUSEHOLD BASIC PROFILE -->
+  <!-- ============================= -->
+  <Entity name="HouseholdBasicProfile">
+
+    <Field name="District" required="true" />
+
+    <Field name="Block" required="true" />
+
+    <Field name="GramPanchayat" required="true" />
+
+    <Field name="RevenueVillage" required="true" />
+
+    <Field name="Hamlet" required="false" maxLength="100" />
+
+    <Field name="HeadOfTheHouseholdNameAsPerAadhar"
+           required="true"
+           minLength="3"
+           maxLength="100" />
+
+    <Field name="HeadOfTheHouseholdGender"
+           required="true"
+           allowedValues="Male,Female,Other" />
+
+    <Field name="AadharNo"
+           required="true"
+           regex="^\d{12}$"
+           errorMessage="Aadhar must be 12 digits" />
+
+    <Field name="SocialCategory"
+           required="true"
+           allowedValues="ST,SC,OBC,General,PVTG" />
+
+    <Field name="BankAccountNumber"
+           required="true"
+           regex="^\d{9,18}$" />
+
+    <Field name="IFSCcodeOrBranch"
+           required="true"
+           regex="^[A-Z]{4}0[A-Z0-9]{6}$" />
+
+    <Field name="WomenMemberAge"
+           required="true"
+           min="16"
+           max="75" />
+
+     <Field name="MaritalStatus"
+           required="true"
+           allowedValues="Married,Never married,Widow,Other" />      
+     
+     <Field name="RelationshipWithHead"
+           required="true"
+           allowedValues="Spouse, Daughter, Daughter-In-Law, Sister, Mother, Self" />  
+
+    <Field name="TotalFamilyMembers"
+           required="true"
+           min="1"
+           max="15" />
+
+    <Field name="RationCardNumber"
+           requiredIf="HasRationCard=true"
+           regex="^[A-Z0-9]{11,12}$" />
+      
+      <Field name="DrinkingWaterSource"
+           required="true"
+           allowedValues="Well,Tube Well,Piped Water Supply,Others" />
+
+  </Entity>
+
+  <!-- ============================= -->
+  <!-- HOUSEHOLD OCCUPATION & LAND -->
+  <!-- ============================= -->
+  <Entity name="HouseholdOccupationAndLand">
+
+    <Field name="PrimaryOccupation"
+           required="true"
+           allowedValues="Agriculture,Daily Wage Labour,Self employed,Govt./Private Service,Other" />
+
+    <Field name="OtherPrimaryOccupationDetails"
+           requiredIf="PrimaryOccupationOfTheFamily=Other"
+           minLength="3"
+           maxLength="100" />
+
+    <Field name="FRAClaimantStatus"
+           required="true"
+           allowedValues="Not a FRA Claimant,FRA Claimant" />
+
+    <Field name="FRA_LandAmountInAcres"
+           requiredIf="FRAClaimantStatus=FRA Claimant"
+           min="0.5"
+           max="5" />
+
+    <Field name="ApproximatePrivateLandHolding"
+           required="true"
+           allowedValues="Landless, 0- 0.5 Acr , 0.5- 1 Acr , 1 - 2.5 Acr , more than 2.5 Acr" />
+    <Field name="LivestockActivity"
+           required="true"
+           allowedValues="Poultry,Goatery,Dairy,Others" />       
+
+  </Entity>
+
+  <!-- ============================= -->
+  <!-- HOUSEHOLD MIGRATION STATUS -->
+  <!-- ============================= -->
+  <Entity name="HouseholdMigrationStatus">
+
+    <Field name="FamilyContactMobileNo"
+           required="true"
+           regex="^[6-9]\d{9}$"
+           errorMessage="Invalid Indian mobile number" />
+
+    <Field name="RespondentIdentity"
+           required="true"
+           allowedValues="Migrant Person himself,Other Adult family member,Village Head / Ward Member,Neighbor,Head of the Household" />
+
+    <Field name="RespondentPhotoPathOrUrl"
+           required="true"
+           allowedExtensions=".jpg,.jpeg"
+           maxSizeMB="1" />
+
+  </Entity>
+
+
+<!-- ============================= -->
+<!-- HOUSEHOLD ENTITLEMENT -->
+<!-- ============================= -->
+<Entity name="HouseholdEntitlement">
+
+  <!-- PM / CM Kisan -->
+  <Field name="KishanSchemeCoverage"
+         required="true"
+         allowedValues="PM Kishan,CM Kishan,Both" />
+
+  <!-- Rural Housing -->
+  <Field name="HasRuralHousingSchemeHouse"
+         required="true" />
+
+  <!-- MGNREGS -->
+  <Field name="HasMGNREGSJobCard"
+         required="true" />
+
+  <Field name="FullJobCardNumber"
+         requiredIf="HasMGNREGSJobCard=true"
+         minLength="5"
+         maxLength="20" />
+
+  <!-- Sanitation -->
+  <Field name="HasIndividualHouseholdLatrine"
+         required="true" />
+
+  <!-- Electricity -->
+  <Field name="HasElectricityConnection"
+         required="true" />
+
+  <!-- Health -->
+  <Field name="IsCoveredUnderAyushmanBharat"
+         required="true" />
+
+  <!-- Pension -->
+  <Field name="IsEnrolledUnderShramYogiMaandhan"
+         required="true" />
+
+  <!-- Banking -->
+  <Field name="HasJanDhanYojanaAccount"
+         required="true" />
+
+  <!-- Insurance -->
+  <Field name="IsCoveredUnderPMJJBY"
+         required="true" />
+
+  <Field name="IsCoveredUnderPMSBY"
+         required="true" />
+
+</Entity>
+
+<!-- ============================= -->
+<!-- HOUSEHOLD FAMILY MEMBER -->
+<!-- ============================= -->
+<Entity name="HouseholdFamilyMember">
+
+  <Field name="Name"
+         required="true"
+         minLength="3"
+         maxLength="100" />
+
+  <Field name="Age"
+         required="true"
+         min="0"
+         max="100" />
+
+  <Field name="Gender"
+         required="true"
+         allowedValues="Male,Female,Other" />
+
+  <Field name="EducationalQualification"
+         required="true"
+        />
+  <Field name="SectorOfEngagementDuringMigration"
+         requiredIf="MigratedInLast3Years=true"
+         allowedValues="Brick Kiln,Construction Labour,Agri Labour,Mason,Domestic Support,Manufacturing,Service Sector (Hotel, Hospital, Security),Other" />
+
+  <!-- Migration -->
+  <Field name="MigratedInLast3Years"
+         required="true" />
+
+  <Field name="DestinationState"
+         requiredIf="MigratedInLast3Years=true"
+         minLength="2"
+         maxLength="50" />
+
+  <Field name="SectorOfEngagementDuringMigration"
+         requiredIf="MigratedInLast3Years=true"
+         allowedValues="Brick Kiln,Construction Labour,Agri Labour,Mason,Domestic Support,Manufacturing,Service Sector (Hotel, Hospital, Security),Other" />
+
+  <Field name="PeriodOfMigration"
+         requiredIf="MigratedInLast3Years=true"
+         allowedValues="1-3 months,4-6 months,7-12 months" />
+
+  <Field name="MonthlyRemittanceDuringMigration"
+         requiredIf="MigratedInLast3Years=true"
+         min="0"
+         max="100000" />
+
+  <!-- Skill Development -->
+  <Field name="InterestInSkillDevelopment"
+         required="true"
+         allowedValues="DDUGKY,RSETI,Other,None" />
+
+</Entity>
+
+</ValidationRules>

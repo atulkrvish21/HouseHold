@@ -31,10 +31,23 @@ namespace HHSurvey.Controllers
         }
 
         // GET: api/StateList/5
-        [HttpGet("{bankName}")]
+        [HttpGet("name/{bankName}")]
         public async Task<ActionResult<IEnumerable<bankIFSCode>>> GetBankifsCodeByName(string bankName)
         {
             var bankList = await _context.bankIFSCode.Where(b => b.BankName == bankName).OrderBy(x => x.BranchName).ToListAsync();
+
+            if (bankList == null)
+            {
+                return NotFound();
+            }
+
+            return bankList;
+        }
+
+        [HttpGet("ifsc/{ifscCode}")]
+        public async Task<ActionResult<IEnumerable<bankIFSCode>>> GetBranchIfscCode(string ifscCode)
+        {
+            var bankList = await _context.bankIFSCode.Where(b => b.ifsCode == ifscCode).OrderBy(x => x.ifsCode).ToListAsync();
 
             if (bankList == null)
             {

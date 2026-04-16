@@ -25,28 +25,28 @@ public class HouseholdOccupationAndLandValidator
             .WithMessage("Other occupation details required");
 
         // -------- FRA --------
-        RuleFor(x => x.FRAClaimantStatus)
-            .NotEmpty()
-            .Must(value =>
-                value.InIgnoreCase(
-                    ruleService.GetAllowedValues("FRAClaimantStatus").ToArray()))
-            .WithMessage("Invalid FRA claimant status");
+        // RuleFor(x => x.FRAClaimantStatus)
+        //     .NotEmpty()
+        //     .Must(value =>
+        //         value.InIgnoreCase(
+        //             ruleService.GetAllowedValues("FRAClaimantStatus").ToArray()))
+        //     .WithMessage("Invalid FRA claimant status");
 
-        RuleFor(x => x.FRA_LandAmountInAcres)
-            .InclusiveBetween(0.5m, 5m)
-            .When(x =>
-                x.FRAClaimantStatus != null &&
-                x.FRAClaimantStatus.Equals(
-                    "FRA Claimant",
-                    StringComparison.OrdinalIgnoreCase));
+        // RuleFor(x => x.FRA_LandAmountInAcres)
+        //     .InclusiveBetween(0.5m, 5m)
+        //     .When(x =>
+        //         x.FRAClaimantStatus != null &&
+        //         x.FRAClaimantStatus.Equals(
+        //             "FRA Claimant",
+        //             StringComparison.OrdinalIgnoreCase));
 
-        RuleFor(x => x.FRA_LandAmountInAcres)
-            .Null()
-            .When(x =>
-                x.FRAClaimantStatus != null &&
-                x.FRAClaimantStatus.Equals(
-                    "Not a FRA Claimant",
-                    StringComparison.OrdinalIgnoreCase));
+        // RuleFor(x => x.FRA_LandAmountInAcres)
+        //     .Null()
+        //     .When(x =>
+        //         x.FRAClaimantStatus != null &&
+        //         x.FRAClaimantStatus.Equals(
+        //             "Not a FRA Claimant",
+        //             StringComparison.OrdinalIgnoreCase));
 
         // -------- PRIVATE LAND --------
         RuleFor(x => x.ApproximatePrivateLandHolding)

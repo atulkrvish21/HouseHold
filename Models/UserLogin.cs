@@ -15,6 +15,7 @@ namespace HHSurvey.Models
          public string? district { get; set;}
          public string? block { get; set; }
          public string? panchayat { get; set; }
+         public string? village { get; set; }
         public int sstatus { get; set; } = 1;
         public int roleId { get; set; } = 1;
         public DateTime entryDate { get; set; } = System.DateTime.Now;

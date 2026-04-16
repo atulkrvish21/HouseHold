@@ -385,6 +385,197 @@ namespace HHSurvey.Controllers
             .ToList();
             return Ok(households);
         }
+//UPDATE
+[HttpPost("{uniqueId}")]
+[Consumes("multipart/form-data")]
+public async Task<ActionResult> PutHousehold(
+    string uniqueId,
+    [FromForm] string householdJson,
+    [FromForm] IFormFile? respondentPhoto)
+{
+    try
+    {
+        var household = JsonSerializer.Deserialize<Household>(
+            householdJson,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                NumberHandling = JsonNumberHandling.AllowReadingFromString
+            });
+
+        if (household == null || household.HouseholdBasicProfile == null)
+            return BadRequest("Invalid household data");
+
+        var username = User.FindFirst(ClaimTypes.Name)?.Value;
+
+        // 🔍 Validation
+        var validationResult = await _householdValidator.ValidateAsync(household);
+        if (!validationResult.IsValid)
+        {
+            return Ok(new
+            {
+                success = false,
+                title = "Validation failed",
+                errors = validationResult.Errors
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(e => e.ErrorMessage).ToArray()
+                    )
+            });
+        }
+
+        using var transaction = await _context.Database.BeginTransactionAsync();
+
+        // 🔎 Fetch existing data
+        var existingProfile = await _context.HouseholdBasicProfile
+            .FirstOrDefaultAsync(x => x.UniqueId == uniqueId);
+
+        if (existingProfile == null)
+            return NotFound("Household not found");
+
+        // Preserve fields
+        var originalGeo = existingProfile.GeoLocation;
+        var originalEntryBy = existingProfile.entryBy;
+        var originalEntryDate = existingProfile.EntryDate;
+        household.HouseholdBasicProfile.Id = existingProfile.Id;
+        // ✅ Update Basic Profile
+        _context.Entry(existingProfile).CurrentValues
+            .SetValues(household.HouseholdBasicProfile);
+        _context.Entry(existingProfile).Property(x => x.Id).IsModified = false;
+        existingProfile.UniqueId = uniqueId;
+        existingProfile.GeoLocation = originalGeo;
+        existingProfile.entryBy = originalEntryBy;
+        existingProfile.EntryDate = originalEntryDate;
+
+        // ============================
+        // ✅ Entitlement
+        // ============================
+        var existingEntitlement = await _context.HouseholdEntitlement
+            .FirstOrDefaultAsync(x => x.UniqueId == uniqueId);
+
+        if (household.HouseholdEntitlement != null)
+        {
+            if (existingEntitlement != null)
+            {  household.HouseholdEntitlement.UniqueId = uniqueId;
+                household.HouseholdEntitlement.Id = existingEntitlement.Id;
+                _context.Entry(existingEntitlement).CurrentValues
+                    .SetValues(household.HouseholdEntitlement);
+            }
+            else
+            {
+              
+                household.HouseholdEntitlement.UniqueId = uniqueId;
+                _context.HouseholdEntitlement.Add(household.HouseholdEntitlement);
+            }
+        }
+
+        // ============================
+        // ✅ Occupation
+        // ============================
+        var existingOcc = await _context.HouseholdOccupationAndLand
+            .FirstOrDefaultAsync(x => x.UniqueId == uniqueId);
+
+        if (household.HouseholdOccupationAndLand != null)
+        {
+            if (existingOcc != null)
+            {
+                  household.HouseholdOccupationAndLand.UniqueId = uniqueId;
+                household.HouseholdOccupationAndLand.Id = existingOcc.Id;
+                _context.Entry(existingOcc).CurrentValues
+                    .SetValues(household.HouseholdOccupationAndLand);
+            }
+            else
+            {
+                household.HouseholdOccupationAndLand.UniqueId = uniqueId;
+                _context.HouseholdOccupationAndLand.Add(household.HouseholdOccupationAndLand);
+            }
+        }
+
+        // ============================
+        // ✅ Migration + Photo
+        // ============================
+        var existingMig = await _context.HouseholdMigrationStatus
+            .FirstOrDefaultAsync(x => x.UniqueId == uniqueId);
+
+        if (household.HouseholdMigrationStatus != null)
+        {
+            if (existingMig != null)
+            {
+                // Preserve old photo if not uploaded
+                if (respondentPhoto == null)
+                {
+                    household.HouseholdMigrationStatus.RespondentPhotoPathOrUrl =
+                        existingMig.RespondentPhotoPathOrUrl;
+                }
+                    household.HouseholdMigrationStatus.UniqueId = uniqueId;
+                    household.HouseholdMigrationStatus.Id = existingMig.Id;
+                _context.Entry(existingMig).CurrentValues
+                    .SetValues(household.HouseholdMigrationStatus);
+            }
+            else
+            {
+                household.HouseholdMigrationStatus.UniqueId = uniqueId;
+                _context.HouseholdMigrationStatus.Add(household.HouseholdMigrationStatus);
+            }
+        }
+
+        // 📸 Handle Photo Upload
+        if (respondentPhoto != null && respondentPhoto.Length > 0)
+        {
+            var uploadsPath = Path.Combine("Uploads", "RespondentPhotos");
+            Directory.CreateDirectory(uploadsPath);
+
+            var fileName = $"{uniqueId}_v2{Path.GetExtension(respondentPhoto.FileName)}";
+            var filePath = Path.Combine(uploadsPath, fileName);
+
+            using var stream = new FileStream(filePath, FileMode.Create);
+            await respondentPhoto.CopyToAsync(stream);
+
+            if (existingMig != null)
+                existingMig.RespondentPhotoPathOrUrl = filePath;
+        }
+
+        // ============================
+        // ✅ Family Members (Replace)
+        // ============================
+        var existingMembers = _context.HouseholdFamilyMember
+            .Where(x => x.UniqueId == uniqueId);
+
+        _context.HouseholdFamilyMember.RemoveRange(existingMembers);
+
+        if (household.HouseholdFamilyMember?.Any() == true)
+        {
+            foreach (var member in household.HouseholdFamilyMember)
+            {
+                member.Id = 0;
+                member.UniqueId = uniqueId;
+            }
+
+            _context.HouseholdFamilyMember.AddRange(household.HouseholdFamilyMember);
+        }
+
+        await _context.SaveChangesAsync();
+        await transaction.CommitAsync();
+
+        return Ok(new
+        {
+            success = true,
+            message = "Household updated successfully"
+        });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error updating household: {ex.InnerException?.Message ?? ex.Message}");
+        return Ok(new
+        {
+            success = false,
+            title = "Something went wrong",
+            errors = ex.Message
+        });
+    }
+}
+
 
         // POST: api/StateList
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -514,7 +705,7 @@ if (respondentPhoto != null && respondentPhoto.Length > 0)
         }
         }
 
-[HttpPost("{uniqueId}")]
+[HttpPost("{uniqueId}/{update}")]
 public async Task<ActionResult> UpdateHousehold(string uniqueId, [FromForm] string householdJson, [FromForm] IFormFile? respondentPhoto)
 {
     try 

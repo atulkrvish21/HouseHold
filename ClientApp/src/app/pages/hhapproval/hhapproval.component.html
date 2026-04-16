@@ -61,8 +61,8 @@
     
     <td class="border px-2 py-1 text-left">{{ h.headName }}</td>
     <td class="border px-2 py-1">{{ h.block }}</td>
-    <td class="border px-2 py-1">{{ h.village }}</td>
     <td class="border px-2 py-1">{{ h.gp }}</td>
+    <td class="border px-2 py-1">{{ h.village }}</td>
     <td class="border px-2 py-1">{{ h.category }}</td>
     <td class="border px-2 py-1 text-center">{{ h.totalMembers }}</td>
     <td class="border px-2 py-1">{{ h.hasRationCard ? 'Yes' : 'No' }}</td>
@@ -72,7 +72,7 @@
   </tr>
   
   <tr *ngIf="reportList.length === 0 && !loading">
-      <td colspan="11" class="text-center py-4 text-gray-500">No records found.</td>
+      <td colspan="12" class="text-center py-4 text-gray-500">No records found.</td>
   </tr>
 </tbody>
     </table>
@@ -126,17 +126,6 @@
 
 
 <div class="modal-overlay" *ngIf="showViewModal">
-  <div class="modal-container max-w-5xl h-[95vh] flex flex-col">
-    
-    <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-xl">
-      <div>
-        <h3 class="text-xl font-bold text-slate-800">Household Details</h3>
-        <p class="text-xs text-slate-500 font-mono">HHID: {{selectedHousehold?.householdBasicProfile.uniqueId}}</p>
-      </div>
-      <button (click)="closeViewModal()" class="text-3xl text-slate-400 hover:text-red-500">&times;</button>
-    </div>
-
-<div class="modal-overlay" *ngIf="showViewModal">
   <div class="modal-container max-w-5xl h-[90vh] flex flex-col bg-white rounded-lg shadow-2xl overflow-hidden text-sm">
     
     <div class="px-4 py-3 border-b flex justify-between items-center bg-slate-50">
@@ -154,7 +143,7 @@
       <div class="hidden print-header flex justify-between border-b-2 border-black pb-1 mb-1">
         <div>
            <h1 class="text-xl font-bold uppercase leading-none">Household Survey Report</h1>
-           <p class="text-[10px] text-slate-500 mt-1">Generated: {{ selectedHousehold?.entryDate | date:'mediumDate' }}</p>
+           <p class="text-[10px] text-slate-500 mt-1">Generated: {{ selectedHousehold?.householdBasicProfile?.entryDate | date:'mediumDate' }}</p>
         </div>
         <div class="text-right">
           <p class="font-bold text-sm">ID: {{selectedHousehold?.householdBasicProfile?.uniqueId}}</p>
@@ -192,7 +181,7 @@
       <span class="text-slate-400 mr-1">Hamlet:</span>
       <span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.hamlet || '-'}}</span>
     </div>
-
+    
     <div class="col-span-2 md:col-span-1 truncate">
       <span class="text-slate-400 mr-1">Head:</span>
       <span class="font-semibold text-slate-700" title="{{selectedHousehold?.householdBasicProfile?.headOfTheHouseholdNameAsPerAadhar}}">
@@ -211,7 +200,7 @@
     </div>
 
     <div>
-      <span class="text-slate-400 mr-1">Cat:</span>
+      <span class="text-slate-400 mr-1">Social Category:</span>
       <span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.socialCategory}}</span>
     </div>
 
@@ -232,10 +221,18 @@
           <h4 class="text-purple-600 border-b border-slate-200 pb-1 mb-2 font-bold text-sm uppercase tracking-wide">3. Women Details</h4>
           <div class="grid grid-cols-1 gap-y-1 text-xs">
             <div class="flex justify-between"><label class="text-slate-500">Name:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.womenMemberName || '-'}}</span></div>
-            <div class="flex justify-between"><label class="text-slate-500">Age / Status:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.womenMemberAge || '-'}} / {{selectedHousehold?.householdBasicProfile?.womenMemberMaritalStatus}}</span></div>
-            <div class="flex justify-between"><label class="text-slate-500">In SHG / Subhadra?</label>
+            <div class="flex justify-between"><label class="text-slate-500">Age:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.womenMemberAge ?? '-'}}</span></div>
+            <div class="flex justify-between"><label class="text-slate-500">Marital Status:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.womenMemberMaritalStatus || '-'}}</span></div>
+            <div class="flex justify-between"><label class="text-slate-500">Relationship with Head:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.womenMemberRelationshipWithHead || '-'}}</span></div>
+            <div class="flex justify-between"><label class="text-slate-500">Total Family Members:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.totalFamilyMembers || '-'}}</span></div>
+            <div class="flex justify-between"><label class="text-slate-500">Covered under SHG?</label>
               <span class="font-semibold text-slate-700">
-                {{selectedHousehold?.householdBasicProfile?.isWomenCoveredUnderSHG ? 'Yes' : 'No'}} / 
+                {{selectedHousehold?.householdBasicProfile?.isWomenCoveredUnderSHG ? 'Yes' : 'No'}} 
+              </span>
+            </div>
+
+            <div class="flex justify-between"><label class="text-slate-500">Covered under Subhadra?</label>
+              <span class="font-semibold text-slate-700">                
                 {{selectedHousehold?.householdBasicProfile?.isWomenCoveredUnderSubhadraYojana ? 'Yes' : 'No'}}
               </span>
             </div>
@@ -250,13 +247,22 @@
           <div class="flex justify-between md:block"><label class="text-slate-500">Card No:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.rationCardNumber || '-'}}</span></div>
           <div class="flex justify-between md:block"><label class="text-slate-500">Water Source:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.drinkingWaterSource || '-'}}</span></div>
           <div class="flex justify-between md:block"><label class="text-slate-500">Ujjwala LPG:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.hasUjjwalaLPGConnection ? 'Yes' : 'No'}}</span></div>
-          <div class="flex justify-between md:block"><label class="text-slate-500">Labour Card:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.hasLabourCard ? 'Yes' : 'No'}}</span></div>
-          
+          <div class="flex justify-between md:block"><label class="text-slate-500">Household Labour Card:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.hasLabourCard ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Household NSKY:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdBasicProfile?.isCoveredUnderNSKY ? 'Yes' : 'No'}}</span></div>
           <div class="flex justify-between md:block"><label class="text-slate-500">PM/CM Kisan:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.kishanSchemeCoverage || '-'}}</span></div>
           <div class="flex justify-between md:block"><label class="text-slate-500">Rural Housing:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.hasRuralHousingSchemeHouse ? 'Yes' : 'No'}}</span></div>
-          <div class="flex justify-between md:block"><label class="text-slate-500">Job Card:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.hasMGNREGSJobCard ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Job Card:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.hasMGNREGSJobCard ? 'Yes (' + selectedHousehold?.householdEntitlement?.fullJobCardNumber + ')' : 'No'}}</span></div>
           <div class="flex justify-between md:block"><label class="text-slate-500">Electricity:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.hasElectricityConnection ? 'Yes' : 'No'}}</span></div>
           <div class="flex justify-between md:block"><label class="text-slate-500">Ayushman:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.isCoveredUnderAyushmanBharat ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Jan Dhan Yojana:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.hasJanDhanYojanaAccount ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Shram Yogi Maandhan:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.isEnrolledUnderShramYogiMaandhan ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Individual Household Latrine:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.hasIndividualHouseholdLatrine ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">PMJJBY:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.isCoveredUnderPMJJBY ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">PMSBY:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.isCoveredUnderPMSBY ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Atal Pension:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.atalPension ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Old Age Pension:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.oldagePension ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Widow Pension:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.widowPension ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between md:block"><label class="text-slate-500">Disability Pension:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdEntitlement?.disabilityPension ? 'Yes' : 'No'}}</span></div>
         </div>
       </section>
 
@@ -270,23 +276,25 @@
                  : selectedHousehold?.householdOccupationAndLand?.primaryOccupationOfTheFamily }}
             </span>
           </div>
-          <div class="flex justify-between"><label class="text-slate-500">Handloom / Weaving:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.isFamilyInvolvedInWeavingOrHandloom ? 'Yes' : 'No'}}</span></div>
-          <div class="flex justify-between"><label class="text-slate-500">FRA Status / Land:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.fraClaimantStatus}} / {{selectedHousehold?.householdOccupationAndLand?.fra_LandAmountInAcres || '0'}} Acr</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">Weaving / Handloom:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.isFamilyInvolvedInWeavingOrHandloom ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">POHI Looms Scheme:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.isFamilyCoveredUnderPOHI_LoomsScheme ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">FRA Beneficiary:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.fraClaimantStatus || '-'}}</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">FRA Land (Acres):</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.fra_LandAmountInAcres ?? '-'}}</span></div>
           <div class="flex justify-between"><label class="text-slate-500">Homestead Patta:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.ownsHomesteadPattaLand ? 'Yes' : 'No'}}</span></div>
-          <div class="flex justify-between"><label class="text-slate-500">Private Land:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.approximatePrivateLandHolding}}</span></div>
-          <div class="flex justify-between"><label class="text-slate-500">Irrigation / Livestock:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.sourcesOfIrrigation || 'None'}} / {{selectedHousehold?.householdOccupationAndLand?.involvedInLivestockActivity || 'None'}}</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">Private Land ROR:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.approximatePrivateLandHolding || '-'}}</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">Irrigation Facility:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.isIrrigationFacilityAvailable ? 'Yes' : 'No'}}</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">Irrigation Source:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.sourcesOfIrrigation || 'None'}}</span></div>
+          <div class="flex justify-between"><label class="text-slate-500">Livestock:</label><span class="font-semibold text-slate-700">{{selectedHousehold?.householdOccupationAndLand?.involvedInLivestockActivity || 'None'}}</span></div>
+
         </div>
       </section>
 
       <section>
         <h4 class="text-danger border-b border-slate-200 pb-1 mb-2 font-bold text-sm uppercase tracking-wide">6. Migration Status</h4>
         <div class="flex flex-wrap gap-4 text-xs items-center bg-red-50 p-2 rounded border border-red-100">
-           
            <div class="flex items-center gap-2">
-             <span class="text-slate-500">Migrated (3Yrs):</span>
-             <span class="font-bold" [class.text-red-600]="selectedHousehold?.householdMigrationStatus?.hasFamilyMemberMigratedLast3Years">
-                {{selectedHousehold?.householdMigrationStatus?.hasFamilyMemberMigratedLast3Years ? 'YES' : 'NO'}}
-             </span>
+             <span class="text-slate-500">Migrated in last 3 years:</span>
+             <span class="font-semibold">{{selectedHousehold?.householdMigrationStatus?.hasFamilyMemberMigratedLast3Years ? 'Yes' : 'No'}}</span>
            </div>
 
            <div class="w-px h-4 bg-slate-300"></div>
@@ -299,14 +307,34 @@
            <div class="w-px h-4 bg-slate-300"></div>
 
            <div class="flex items-center gap-2">
+             <span class="text-slate-500">Minor Children Accompanied:</span>
+             <span class="font-semibold">{{selectedHousehold?.householdMigrationStatus?.minorChildrenAccompaniedMigration ? 'Yes' : 'No'}}</span>
+           </div>
+
+           <div class="w-px h-4 bg-slate-300"></div>
+
+           <div class="flex items-center gap-2">
+             <span class="text-slate-500">Women Members Migrated:</span>
+             <span class="font-semibold">{{selectedHousehold?.householdMigrationStatus?.womenMembersMigrated ? 'Yes' : 'No'}}</span>
+           </div>
+
+           <div class="w-px h-4 bg-slate-300"></div>
+
+           <div class="flex items-center gap-2">
              <span class="text-slate-500">Contact:</span>
              <span class="font-mono font-semibold">{{selectedHousehold?.householdMigrationStatus?.familyContactMobileNo || '-'}}</span>
            </div>
+           <div class="w-px h-4 bg-slate-300"></div>
 
-           <div *ngIf="selectedHousehold.householdMigrationStatus?.respondentPhotoPathOrUrl" class="ml-auto flex items-center gap-2">
+          <div class="flex items-center gap-2">
+             <span class="text-slate-500">Respondent Identity:</span>
+             <span class="font-mono font-semibold">{{selectedHousehold?.householdMigrationStatus?.respondentIdentity || '-'}}</span>
+           </div>
+
+           <div *ngIf="selectedHousehold?.householdMigrationStatus?.respondentPhotoPathOrUrl" class="ml-auto flex items-center gap-2">
               <span class="text-slate-400 text-[10px]">Respondent:</span>
-              <img [src]="selectedHousehold.householdMigrationStatus?.respondentPhotoPathOrUrl" 
-                   (click)="openImage(selectedHousehold.householdMigrationStatus?.respondentPhotoPathOrUrl)"
+              <img [src]="selectedHousehold?.householdMigrationStatus?.respondentPhotoPathOrUrl" 
+                   (click)="openImage(selectedHousehold?.householdMigrationStatus?.respondentPhotoPathOrUrl || '')"
                    class="h-8 w-8 object-cover rounded border cursor-zoom-in hover:scale-110 transition-transform">
            </div>
         </div>
@@ -319,32 +347,40 @@
             <thead class="bg-slate-100 font-semibold text-slate-600">
               <tr>
                 <th class="px-2 py-1 border-b">Name</th>
+                <th class="px-2 py-1 border-b">Relation</th>
                 <th class="px-2 py-1 border-b w-12">Age</th>
                 <th class="px-2 py-1 border-b w-16">Gender</th>
                 <th class="px-2 py-1 border-b">Qualification</th>
+                <th class="px-2 py-1 border-b">Labour Card</th>
+                <th class="px-2 py-1 border-b">NSKY</th>
+                <th class="px-2 py-1 border-b">Interest in <br>Skill Development</th>
                 <th class="px-2 py-1 border-b text-center w-20">Migrated?</th>
-                <th class="px-2 py-1 border-b">Details (If Migrated)</th>
+                <th class="px-2 py-1 border-b">Details <br>(If Migrated)</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
               <tr *ngFor="let m of selectedHousehold?.householdFamilyMember" class="hover:bg-slate-50">
                 <td class="px-2 py-1">{{m.name}}</td>
+                <td class="px-2 py-1">{{m.relationshipWithHeadOfHousehold || '-'}}</td>
                 <td class="px-2 py-1">{{m.age}}</td>
                 <td class="px-2 py-1">{{m.gender}}</td>
                 <td class="px-2 py-1">{{m.educationalQualification}}</td>
+                <td class="px-2 py-1">{{m.memberHasLabourCard ? 'Yes' : 'No'}}</td>
+                <td class="px-2 py-1">{{m.memberCoveredUnderNSKY ? 'Yes' : 'No'}}</td>
+                <td class="px-2 py-1">{{m.interestInSkillDevelopment === null ? '-' : (m.interestInSkillDevelopment ? 'Yes' : 'No')}}</td>
                 <td class="px-2 py-1 text-center">
                   <span *ngIf="m.migratedInLast3Years" class="text-red-600 font-bold text-[10px]">YES</span>
                   <span *ngIf="!m.migratedInLast3Years" class="text-slate-400">-</span>
                 </td>
                 <td class="px-2 py-1 text-[10px] text-slate-500">
                   <span *ngIf="m.migratedInLast3Years">
-                    {{m.destinationState}}, {{m.sectorOfEngagementDuringMigration}} (₹{{m.monthlyRemittanceDuringMigration}})
+                    {{m.destinationState || '-'}}, {{m.periodOfMigration || '-'}}, {{m.sectorOfEngagementDuringMigration || '-'}} (₹{{m.monthlyRemittanceDuringMigration ?? '-'}})
                   </span>
                   <span *ngIf="!m.migratedInLast3Years">-</span>
                 </td>
               </tr>
               <tr *ngIf="!selectedHousehold?.householdFamilyMember?.length">
-                <td colspan="6" class="px-2 py-2 text-center text-slate-400 italic">No family members recorded.</td>
+                <td colspan="10" class="px-2 py-2 text-center text-slate-400 italic">No family members recorded.</td>
               </tr>
             </tbody>
           </table>
@@ -363,19 +399,19 @@
        
        <button class="px-3 py-1.5 bg-yellow-500 text-white rounded hover:bg-yellow-600 flex items-center gap-1 shadow-sm"
           *ngIf="selectedHousehold?.householdBasicProfile?.uniqueId" 
-          (click)="Edit(selectedHousehold.householdBasicProfile.uniqueId)">
+          (click)="Edit(selectedHousehold?.householdBasicProfile?.uniqueId)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
           Edit
        </button>
 
        <button class="px-3 py-1.5 border border-green-600 text-green-700 bg-green-50 rounded hover:bg-green-100 flex items-center gap-1 shadow-sm"
-               (click)="approve(selectedHousehold?.householdBasicProfile.uniqueId)">
+               (click)="approve(selectedHousehold?.householdBasicProfile?.uniqueId)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
           Approve
        </button>
 
        <button class="px-3 py-1.5 border border-red-600 text-red-700 bg-red-50 rounded hover:bg-red-100 flex items-center gap-1 shadow-sm"
-               (click)="openRejectConfirm(selectedHousehold?.householdBasicProfile.uniqueId)">
+               (click)="openRejectConfirm(selectedHousehold?.householdBasicProfile?.uniqueId)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
           Reject
        </button>

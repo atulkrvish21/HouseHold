@@ -56,6 +56,10 @@ export interface HouseholdEntitlement {
   isEnrolledUnderShramYogiMaandhan: boolean;
   isCoveredUnderPMJJBY: boolean;
   isCoveredUnderPMSBY: boolean;
+  atalPension: boolean;
+  oldagePension: boolean;
+  widowPension: boolean;
+  disabilityPension: boolean;
 }
 
 export interface HouseholdMigrationStatus {
@@ -83,6 +87,8 @@ export interface HouseholdOccupationAndLand {
 }
 
 export interface HouseholdFamilyMember {
+  id?: number;
+  uniqueId?: string | null;
   name: string;
   age: number | null;
   gender: string;
@@ -92,7 +98,11 @@ export interface HouseholdFamilyMember {
   sectorOfEngagementDuringMigration: string;
   periodOfMigration: string;
   monthlyRemittanceDuringMigration: number | null;
-  interestInSkillDevelopment: string;
+  interestInSkillDevelopment: boolean | null;
+  relationshipWithHeadOfHousehold?: string | null;
+  memberHasLabourCard?: boolean | null;
+  memberCoveredUnderNSKY?: boolean | null;
+  entryDate?: string | null;
 }
 
 // Initializer to create a blank form
@@ -110,7 +120,7 @@ export const createEmptyHousehold = (): Household => ({
     kishanSchemeCoverage: '', hasRuralHousingSchemeHouse: false, hasIndividualHouseholdLatrine: false,
     hasElectricityConnection: false, hasMGNREGSJobCard: false, fullJobCardNumber: '',
     hasJanDhanYojanaAccount: false, isCoveredUnderAyushmanBharat: false, isEnrolledUnderShramYogiMaandhan: false,
-    isCoveredUnderPMJJBY: false, isCoveredUnderPMSBY: false
+    isCoveredUnderPMJJBY: false, isCoveredUnderPMSBY: false, atalPension: false, oldagePension: false, widowPension: false, disabilityPension: false
   },
   householdMigrationStatus: {
     hasFamilyMemberMigratedLast3Years: false, takenAdvanceForMigrationFromMiddleman: false,

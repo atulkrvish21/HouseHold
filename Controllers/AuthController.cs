@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Mono.TextTemplating;
 
 namespace HHSurvey.Controllers
 {
@@ -94,7 +95,7 @@ namespace HHSurvey.Controllers
             new Claim(ClaimTypes.GivenName, user.fullName),
             new Claim(ClaimTypes.Name, user.username),
             new Claim(ClaimTypes.Role, user.roleId.ToString()),
-            new Claim(ClaimTypes.Email, user.emailId)
+            new Claim(ClaimTypes.Email, user.emailId ?? "")
             };
 
                 var jwtSecurityToken = new JwtSecurityToken(
@@ -106,8 +107,15 @@ namespace HHSurvey.Controllers
 
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
                 await SaveLoginHistory(user.username, "Success", clientIp, deviceInfo);
-                return Ok(new { Token = token, Status="OK", Message="SUCCESS" });
-            }
+                string? village = user.village; // from DB
+
+                string[] villageArray = string.IsNullOrWhiteSpace(village)
+                                    ? Array.Empty<string>()
+                                    : village.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(v => v.Trim())
+                                    .ToArray();
+                return Ok(new { Token = token, Status="OK", Message="SUCCESS", State=user?.state, District=user?.district, Block=user?.block, GP=user?.panchayat, Village=villageArray });
+            }   
             catch (Exception ex)
             {
                await  SaveLoginHistory(loginDto.Username, "Error : " + ex.Message.ToString(), clientIp, deviceInfo);

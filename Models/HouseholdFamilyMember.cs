@@ -26,6 +26,10 @@ public class HouseholdFamilyMember
     public int? MonthlyRemittanceDuringMigration { get; set; }
     
     // Whether interested for skill development
-    public string? InterestInSkillDevelopment { get; set; }
-     public DateTime? entryDate { get; set; } = DateTime.Now;
+    public bool? InterestInSkillDevelopment { get; set; }=false;
+
+    public string? RelationshipWithHeadOfHousehold { get; set; } = "";
+    public bool? memberHasLabourCard { get; set; } = false;
+    public bool? memberCoveredUnderNSKY {get;set;} = false;
+    public DateTime? entryDate { get; set; } = DateTime.Now;
 }

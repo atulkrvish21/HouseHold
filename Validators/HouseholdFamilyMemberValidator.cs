@@ -90,10 +90,10 @@ public class HouseholdFamilyMemberValidator
             .WithMessage("Remittance must be 0 if not migrated");
 
         // ---------- SKILL DEVELOPMENT ----------
-        RuleFor(x => x.InterestInSkillDevelopment)
-            .NotEmpty()
-            .Must(v => v.InIgnoreCase(AllowedSkillInterest))
-            .WithMessage("Invalid skill development option");
+        // RuleFor(x => x.InterestInSkillDevelopment)
+        //     .NotEmpty()
+        //     .Must(v => v.InIgnoreCase(AllowedSkillInterest))
+        //     .WithMessage("Invalid skill development option");
 
         
     }

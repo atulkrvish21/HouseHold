@@ -45,5 +45,9 @@ public class HouseholdEntitlement
 
     // Whether family members between age 18 to 70 years covered under PMSBY?
     public bool? IsCoveredUnderPMSBY { get; set; } = false;
+      public bool? AtalPension { get; set; } = false;
+      public bool? OldagePension { get; set; } = false;
+      public bool? WidowPension { get; set; } = false;
+      public bool? DisabilityPension { get; set; } = false; 
      public DateTime? entryDate { get; set; } = DateTime.Now;
 }

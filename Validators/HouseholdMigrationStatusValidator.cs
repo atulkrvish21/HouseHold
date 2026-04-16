@@ -24,10 +24,10 @@ public class HouseholdMigrationStatusValidator
             .WithMessage("Enter a valid 10-digit mobile number");
 
         // ---------- RESPONDENT (CASE-INSENSITIVE) ----------
-        RuleFor(x => x.RespondentIdentity)
-            .NotEmpty()
-            .Must(v => v.InIgnoreCase(AllowedRespondents))
-            .WithMessage("Invalid respondent identity");
+        // RuleFor(x => x.RespondentIdentity)
+        //     .NotEmpty()
+        //     .Must(v => v.InIgnoreCase(AllowedRespondents))
+        //     .WithMessage("Invalid respondent identity");
 
         // ---------- PHOTO ----------
         // RuleFor(x => x.RespondentPhotoPathOrUrl)

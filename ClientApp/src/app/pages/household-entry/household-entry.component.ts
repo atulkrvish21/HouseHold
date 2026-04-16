@@ -189,7 +189,7 @@ this.dropdownService.getBankifsCode(String(bankName)).subscribe(bankIfsc => {
     this.formData.householdFamilyMember.push({
       name: '', age: null, gender: '', educationalQualification: '',
       migratedInLast3Years: false, destinationState: '', sectorOfEngagementDuringMigration: '',
-      periodOfMigration: '', monthlyRemittanceDuringMigration: null, interestInSkillDevelopment: ''
+      periodOfMigration: '', monthlyRemittanceDuringMigration: null, interestInSkillDevelopment: false
     });
   }
 

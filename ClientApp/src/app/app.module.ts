@@ -37,6 +37,7 @@ import { PanchayatProgressComponent } from './pages/reports/panchayat-progress/p
 import { GapReportComponent } from './pages/reports/gap-report/gap-report.component';
 import { NgChartsModule } from 'ng2-charts';
 import { DashboardChartComponent } from './pages/reports/dashboard-chart/dashboard-chart.component';
+import { MigrationDetailsComponent } from './pages/migration-details/migration-details.component';
 @NgModule({
   declarations: [
   AppComponent,
@@ -56,6 +57,7 @@ import { DashboardChartComponent } from './pages/reports/dashboard-chart/dashboa
     PanchayatProgressComponent,
     GapReportComponent,
     DashboardChartComponent,
+    MigrationDetailsComponent,
     
   ],
   imports: [

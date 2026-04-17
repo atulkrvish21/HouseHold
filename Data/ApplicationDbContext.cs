@@ -37,5 +37,21 @@ namespace HHSurvey.Data
         public DbSet<HouseholdMigrationStatus> HouseholdMigrationStatus { get; set; }
         public DbSet<HouseholdOccupationAndLand> HouseholdOccupationAndLand { get; set; }
 
+
+        public DbSet<Relationship> Relationship { get; set; }
+        public DbSet<GenderType> GenderType { get; set; }
+        public DbSet<EducationalQualification> EducationalQualification { get; set; }
+        public DbSet<SocialCategory> SocialCategory { get; set; }
+        public DbSet<DrinkingWaterSource> DrinkingWaterSource { get; set; }
+        public DbSet<RespondentIdentity> RespondentIdentity { get; set; }
+        public DbSet<MigrationSector> MigrationSector { get; set; }
+        public DbSet<MigrationPeriod> MigrationPeriod { get; set; }
+        public DbSet<SourcesOfIrrigation> SourcesOfIrrigation { get; set; }
+        public DbSet<PrimaryOccupation> PrimaryOccupation { get; set; }
+        public DbSet<ApproximatePrivateLandHolding> ApproximatePrivateLandHolding { get; set; }
+        public DbSet<InvolvedInLivestockActivity> InvolvedInLivestockActivity { get; set; }
+        public DbSet<KishanSchemeCoverage> KishanSchemeCoverage { get; set; }
+       
+
     }
 }

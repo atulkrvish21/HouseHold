@@ -39,13 +39,7 @@ public class DrinkingWaterSource
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
-public class DrinkingWaterSourceType
-{
-    [Key]
-    public int Id { get; set; }
-    public string? SourceTypeName { get; set; }
-    public DateTime? entryDate { get; set; } = DateTime.Now;
-}
+
 public class RespondentIdentity
 {
     [Key]
@@ -65,29 +59,8 @@ public class MigrationPeriod
 {
     [Key]
     public int Id { get; set; }
+    public int? shortOrder {get;set;}
     public string? PeriodName { get; set; }
-    public DateTime? entryDate { get; set; } = DateTime.Now;
-}
-
-public class SkillDevelopmentInterest
-{
-    [Key]
-    public int Id { get; set; }
-    public string? InterestName { get; set; }
-    public DateTime? entryDate { get; set; } = DateTime.Now;
-}
-public class MigrationDestinationState
-{
-    [Key]
-    public int Id { get; set; }
-    public string? StateName { get; set; }
-    public DateTime? entryDate { get; set; } = DateTime.Now;
-}
-public class MigrationAdvanceSource
-{
-    [Key]
-    public int Id { get; set; }
-    public string? SourceName { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
@@ -106,21 +79,6 @@ public class PrimaryOccupation
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
-public class WeavingOrHandloomInvolvement
-{
-    [Key]
-    public int Id { get; set; }
-    public string? InvolvementType { get; set; }
-    public DateTime? entryDate { get; set; } = DateTime.Now;
-}   
-
-public class FRAClaimantStatus
-{
-    [Key]
-    public int Id { get; set; }
-    public string? StatusName { get; set; }
-    public DateTime? entryDate { get; set; } = DateTime.Now;
-}
 
 public class ApproximatePrivateLandHolding
 {
@@ -137,21 +95,30 @@ public class InvolvedInLivestockActivity
     public string? ActivityType { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }   
-
-public class HouseholdType
+public class KishanSchemeCoverage
 {
     [Key]
     public int Id { get; set; }
-    public string? TypeName { get; set; }
+    public string? SchemeName { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }   
 
-public class LandOwnershipStatus
+public class MasterDataResponse
 {
-    [Key]
-    public int Id { get; set; }
-    public string? StatusName { get; set; }
-    public DateTime? entryDate { get; set; } = DateTime.Now;
+    public List<Relationship>? Relationship { get; set; }
+    public List<GenderType>? GenderType { get; set; }
+    public List<EducationalQualification>? EducationalQualification { get; set; }
+    public List<SocialCategory>? SocialCategory { get; set; }
+    public List<DrinkingWaterSource>? DrinkingWaterSource { get; set; }
+    public List<RespondentIdentity>? RespondentIdentity { get; set; }
+    public List<MigrationSector>? MigrationSector { get; set; }
+    public List<MigrationPeriod>? MigrationPeriod { get; set; }
+    public List<SourcesOfIrrigation>? SourcesOfIrrigation { get; set; }
+    public List<PrimaryOccupation>? PrimaryOccupation { get; set; }
+    public List<ApproximatePrivateLandHolding>? ApproximatePrivateLandHolding { get; set; }
+    public List<InvolvedInLivestockActivity>? InvolvedInLivestockActivity { get; set; }
+    public List<KishanSchemeCoverage>? KishanSchemeCoverage { get; set; }
 }
+
 
 

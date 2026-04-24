@@ -51,17 +51,17 @@ public async Task<IActionResult> GetPanchayatLevelProgress()
         var districts = await _context.DistrictList.ToDictionaryAsync(x => x.DistrictCode, x => x.DistrictName);
 
         // 3. Fetch Actual Survey Counts
-        var surveyData = await _context.HouseholdBasicProfile
-            .GroupBy(h => h.GramPanchayat)
-            .Select(g => new 
-            {
-                PanchayatCode = g.Key,
-                Completed = g.Count(x => x.sstatus == 1),
-                Pending = g.Count(x => x.sstatus == 0),
-                Rejected = g.Count(x => x.sstatus == 10)
-            })
-            .ToListAsync();
-
+       var surveyData = await _context.HouseholdBasicProfile
+    .GroupBy(h => h.GramPanchayat)
+    .Select(g => new 
+    {
+        PanchayatName = g.Key,
+        Completed = g.Count(x => x.sstatus == 1),
+        Pending = g.Count(x => x.sstatus == 0),
+        Rejected = g.Count(x => x.sstatus == 10)
+    })
+    .ToListAsync();
+        
         // 4. Merge & Calculate Totals
         var report = masterData.Select(m => 
         {
@@ -74,7 +74,7 @@ public async Task<IActionResult> GetPanchayatLevelProgress()
                 districts.TryGetValue(block.DistrictCode, out districtName);
             }
 
-            var stats = surveyData.FirstOrDefault(s => s.PanchayatCode == m.PanchayatCode.ToString());
+            var stats = surveyData.FirstOrDefault(s => s.PanchayatName == m.PanchayatName);
             
             int completed = stats?.Completed ?? 0;
             int pending = stats?.Pending ?? 0;
@@ -147,7 +147,7 @@ public async Task<IActionResult> GetEntitlementGapReport()
         .GroupBy(x => x.GramPanchayat)
         .Select(g => new
         {
-            PanchayatCode = g.Key,
+            PanchayatName = g.Key,
             TotalHH = g.Count(),
             NoRationCount = g.Sum(x => x.NoRation),
             NoHousingCount = g.Sum(x => x.NoHousing),
@@ -168,7 +168,7 @@ public async Task<IActionResult> GetEntitlementGapReport()
             districts.TryGetValue(block.DistrictCode, out districtName);
         }
 
-        var stats = groupedSurvey.FirstOrDefault(s => s.PanchayatCode == m.PanchayatCode.ToString());
+        var stats = groupedSurvey.FirstOrDefault(s => s.PanchayatName == m.PanchayatName);
 
         return new EntitlementGapDto
         {

@@ -30,7 +30,7 @@
           
              <select  class="form-select"  [(ngModel)]="formData.householdBasicProfile.district" #districtSelect (ngModelChange)="ondistrictChange($event)" name="district">
       <option value="">--Select--</option>
-      <option *ngFor="let option of ddldistrictList" [value]="option.districtCode">{{ option.districtName }}</option>
+      <option *ngFor="let option of ddldistrictList" [ngValue]="option.districtCode">{{ option.districtName }}</option>
     </select>
           </div>
           

@@ -31,7 +31,7 @@
            hover:bg-slate-700
            transition">
 
-    <span>Households</span>
+    <span>Survey</span>
     <span
       class="text-xs transition-transform"
       [ngClass]="{ 'rotate-90': openMenu === 'household' }">
@@ -58,7 +58,7 @@
       class="px-3 py-2 rounded text-slate-400
              hover:bg-slate-700 hover:text-white
              transition">
-      Pending for Approval
+      Household Approval
     </a>
 
   </div>
@@ -112,13 +112,22 @@
              transition">
        Survey Submission Report
     </a>
-    <a
-      routerLink="/household-approval"
+     <a
+      routerLink="/household-survey-details"
       routerLinkActive="bg-indigo-600/20 text-white"
       class="px-3 py-2 rounded text-slate-400
              hover:bg-slate-700 hover:text-white
              transition">
-     Migration Survey
+     Household Details
+    </a>
+
+    <a
+      routerLink="/migration-details"
+      routerLinkActive="bg-indigo-600/20 text-white"
+      class="px-3 py-2 rounded text-slate-400
+             hover:bg-slate-700 hover:text-white
+             transition">
+     Migration Details
     </a>
 
   </div>
@@ -129,16 +138,23 @@
 
 
   <div class="p-4 border-t border-slate-800">
-    <a routerLink="/change-password" class="px-3 py-2 rounded text-slate-400
-             hover:bg-slate-700 hover:text-white
-             transition">
+    <a routerLink="/change-password" class="flex items-center justify-between
+           px-3 py-2
+           rounded-md
+           text-slate-300
+           hover:bg-slate-700 hover:text-white
+           transition ">
       Change Password
     </a>
   </div>
    <div class="p-4 border-t border-slate-800">
-    <a (click)="logout()" class="px-3 py-2 rounded text-slate-400
-             hover:bg-slate-700 hover:text-white
-             transition">
+    <a (click)="logout()" class="flex items-center justify-between
+           px-3 py-2
+           rounded-md
+           text-slate-300
+           hover:bg-slate-700 hover:text-white
+           transition cursor-pointer
+             ">
       Logout
     </a>
   </div>

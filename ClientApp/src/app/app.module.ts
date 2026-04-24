@@ -3,6 +3,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 
 import { AuthGuard } from './services/auth.guard';
 import { AuthService } from './services/auth.service';
@@ -14,7 +23,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationComponent } from './notification/notification.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
 
@@ -38,6 +46,9 @@ import { GapReportComponent } from './pages/reports/gap-report/gap-report.compon
 import { NgChartsModule } from 'ng2-charts';
 import { DashboardChartComponent } from './pages/reports/dashboard-chart/dashboard-chart.component';
 import { MigrationDetailsComponent } from './pages/migration-details/migration-details.component';
+import { MigrationDetailsViewComponent } from './pages/migration-details/migration-details-view/migration-details-view.component';
+import { HouseholdSurveyDetailsComponent } from './pages/household-survey-details/household-survey-details.component';
+import { HouseholdSurveyDetailsViewComponent } from './pages/household-survey-details/household-survey-details-view/household-survey-details-view.component';
 @NgModule({
   declarations: [
   AppComponent,
@@ -58,15 +69,27 @@ import { MigrationDetailsComponent } from './pages/migration-details/migration-d
     GapReportComponent,
     DashboardChartComponent,
     MigrationDetailsComponent,
+    MigrationDetailsViewComponent,
+    HouseholdSurveyDetailsComponent,
+    HouseholdSurveyDetailsViewComponent,
     
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
     HttpClientModule,
     NgxPaginationModule,
     FormsModule,
     NgChartsModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
     LucideAngularModule.pick({ Gauge, FolderPlus, ChevronDown }),
     RouterModule.forRoot([
         { path: '', component: LoginComponent, pathMatch: 'full' },
@@ -80,6 +103,8 @@ import { MigrationDetailsComponent } from './pages/migration-details/migration-d
         { path: 'panchayat-progress', component: PanchayatProgressComponent, canActivate: [AuthGuard] },
         { path: 'gap-report', component: GapReportComponent, canActivate: [AuthGuard] },
         { path: 'dashboard-chart', component: DashboardChartComponent, canActivate: [AuthGuard] },
+        { path: 'migration-details', component: MigrationDetailsComponent, canActivate: [AuthGuard] },
+        { path: 'household-survey-details', component: HouseholdSurveyDetailsComponent, canActivate: [AuthGuard] },
 
     ])
 ],

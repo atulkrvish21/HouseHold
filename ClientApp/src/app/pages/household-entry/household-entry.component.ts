@@ -97,7 +97,7 @@ editMode = false; // Track if we are editing
       const bankName = this.formData.householdBasicProfile.bankName;
       
       // Call your service manually (Don't just call ondistrictChange if it clears variables)
-     
+       
       
         // Handle Photo Preview (since file inputs can't be pre-filled)
         if (res.householdMigrationStatus?.respondentPhotoPathOrUrl) {

@@ -8,6 +8,7 @@ public class Relationship
     [Key]
     public int Id { get; set; }
     public string? RelationshipName { get; set; }
+    public string? RelationshipNameLocal { get; set; }
      public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 public class GenderType 
@@ -15,6 +16,7 @@ public class GenderType
     [Key]
     public int Id { get; set; }
     public string? GenderName { get; set; }
+    public string? GenderNameLocal { get; set; }
      public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 public class EducationalQualification
@@ -22,6 +24,7 @@ public class EducationalQualification
     [Key]
     public int Id { get; set; }
     public string? QualificationName { get; set; }
+    public string? QualificationNameLocal { get; set; }
      public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 public class SocialCategory
@@ -29,6 +32,7 @@ public class SocialCategory
     [Key]
     public int Id { get; set; }
     public string? CategoryName { get; set; }
+    public string? CategoryNameLocal { get; set; }
      public DateTime? entryDate { get; set; } = DateTime.Now;
 }   
 public class DrinkingWaterSource
@@ -36,6 +40,7 @@ public class DrinkingWaterSource
     [Key]
     public int Id { get; set; }
     public string? SourceName { get; set; }
+    public string? SourceNameLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
@@ -45,6 +50,7 @@ public class RespondentIdentity
     [Key]
     public int Id { get; set; }
     public string? IdentityName { get; set; }
+    public string? IdentityNameLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
@@ -53,6 +59,7 @@ public class MigrationSector
     [Key]
     public int Id { get; set; }
     public string? SectorName { get; set; }
+    public string? SectorNameLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 public class MigrationPeriod
@@ -61,6 +68,7 @@ public class MigrationPeriod
     public int Id { get; set; }
     public int? shortOrder {get;set;}
     public string? PeriodName { get; set; }
+    public string? PeriodNameLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
@@ -69,6 +77,7 @@ public class SourcesOfIrrigation
     [Key]
     public int Id { get; set; }
     public string? SourceName { get; set; }
+    public string? SourceNameLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 public class PrimaryOccupation
@@ -76,6 +85,7 @@ public class PrimaryOccupation
     [Key]
     public int Id { get; set; }
     public string? OccupationName { get; set; }
+    public string? OccupationNameLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
@@ -85,6 +95,7 @@ public class ApproximatePrivateLandHolding
     [Key]
     public int Id { get; set; }
     public string? HoldingSize { get; set; }
+    public string? HoldingSizeLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }
 
@@ -93,6 +104,7 @@ public class InvolvedInLivestockActivity
     [Key]
     public int Id { get; set; }
     public string? ActivityType { get; set; }
+    public string? ActivityTypeLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }   
 public class KishanSchemeCoverage
@@ -100,6 +112,7 @@ public class KishanSchemeCoverage
     [Key]
     public int Id { get; set; }
     public string? SchemeName { get; set; }
+    public string? SchemeNameLocal { get; set; }
     public DateTime? entryDate { get; set; } = DateTime.Now;
 }   
 

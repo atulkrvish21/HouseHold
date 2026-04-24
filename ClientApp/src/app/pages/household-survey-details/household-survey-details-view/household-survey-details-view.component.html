@@ -1,0 +1,184 @@
+<div class="dialog-shell">
+  <div class="dialog-header">
+    <div>
+      <p class="dialog-eyebrow">Household Survey Record</p>
+      <h2 mat-dialog-title class="dialog-title">
+        {{ formatValue(data.householdBasicProfile.headOfTheHouseholdNameAsPerAadhar, 'Household details') }}
+      </h2>
+    </div>
+
+    <button mat-stroked-button color="primary" type="button" (click)="close()">
+      Close
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Location & Identification</h3>
+        <p>Location, head of household, and record-level metadata.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item"><span class="label">District</span><span class="value">{{ formatValue(data.householdBasicProfile.district) }}</span></div>
+        <div class="detail-item"><span class="label">Block</span><span class="value">{{ formatValue(data.householdBasicProfile.block) }}</span></div>
+        <div class="detail-item"><span class="label">Gram Panchayat</span><span class="value">{{ formatValue(data.householdBasicProfile.gramPanchayat) }}</span></div>
+        <div class="detail-item"><span class="label">Revenue Village</span><span class="value">{{ formatValue(data.householdBasicProfile.revenueVillage) }}</span></div>
+        <div class="detail-item"><span class="label">Hamlet</span><span class="value">{{ formatValue(data.householdBasicProfile.hamlet) }}</span></div>
+        <div class="detail-item"><span class="label">Nearest Landmark</span><span class="value">{{ formatValue(data.householdBasicProfile.nearestLandmark) }}</span></div>
+        <div class="detail-item"><span class="label">Head Name</span><span class="value">{{ formatValue(data.householdBasicProfile.headOfTheHouseholdNameAsPerAadhar) }}</span></div>
+        <div class="detail-item"><span class="label">Head Gender</span><span class="value">{{ formatValue(data.householdBasicProfile.headOfTheHouseholdGender) }}</span></div>
+        <div class="detail-item"><span class="label">Aadhar Number</span><span class="value">{{ formatValue(data.householdBasicProfile.aadharNo) }}</span></div>
+        <div class="detail-item"><span class="label">Social Category</span><span class="value">{{ formatValue(data.householdBasicProfile.socialCategory) }}</span></div>
+        <div class="detail-item"><span class="label">Entry By</span><span class="value">{{ formatValue(data.householdBasicProfile.entryBy) }}</span></div>
+        <div class="detail-item"><span class="label">Entry Date</span><span class="value">{{ data.householdBasicProfile.entryDate ? (data.householdBasicProfile.entryDate | date:'medium') : 'N/A' }}</span></div>
+        <div class="detail-item"><span class="label">Status</span><span class="value">{{ formatValue(data.householdBasicProfile.sstatus) }}</span></div>
+        <div class="detail-item"><span class="label">Approved By</span><span class="value">{{ formatValue(data.householdBasicProfile.approvedBy) }}</span></div>
+        <div class="detail-item"><span class="label">Approved Date</span><span class="value">{{ data.householdBasicProfile.approvedDate ? (data.householdBasicProfile.approvedDate | date:'medium') : 'N/A' }}</span></div>
+        <div class="detail-item"><span class="label">Reason</span><span class="value">{{ formatValue(data.householdBasicProfile.reason) }}</span></div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Bank & Women Member</h3>
+        <p>Banking details and the household's primary women member profile.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item"><span class="label">Bank Account Number</span><span class="value">{{ formatValue(data.householdBasicProfile.bankAccountNumber) }}</span></div>
+        <div class="detail-item"><span class="label">Bank Name</span><span class="value">{{ formatValue(data.householdBasicProfile.bankName) }}</span></div>
+        <div class="detail-item"><span class="label">IFSC / Branch</span><span class="value">{{ formatValue(data.householdBasicProfile.ifscCodeOrBranch) }}</span></div>
+        <div class="detail-item"><span class="label">Women Member Name</span><span class="value">{{ formatValue(data.householdBasicProfile.womenMemberName) }}</span></div>
+        <div class="detail-item"><span class="label">Women Member Age</span><span class="value">{{ formatValue(data.householdBasicProfile.womenMemberAge) }}</span></div>
+        <div class="detail-item"><span class="label">Marital Status</span><span class="value">{{ formatValue(data.householdBasicProfile.womenMemberMaritalStatus) }}</span></div>
+        <div class="detail-item"><span class="label">Relationship With Head</span><span class="value">{{ formatValue(data.householdBasicProfile.womenMemberRelationshipWithHead) }}</span></div>
+        <div class="detail-item"><span class="label">Covered Under SHG</span><span class="value">{{ formatBoolean(data.householdBasicProfile.isWomenCoveredUnderSHG) }}</span></div>
+        <div class="detail-item"><span class="label">Covered Under Subhadra</span><span class="value">{{ formatBoolean(data.householdBasicProfile.isWomenCoveredUnderSubhadraYojana) }}</span></div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Household Assets & Entitlements</h3>
+        <p>Core household amenities, government scheme coverage, and pension status.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item"><span class="label">Total Family Members</span><span class="value">{{ formatValue(data.householdBasicProfile.totalFamilyMembers) }}</span></div>
+        <div class="detail-item"><span class="label">Ration Card</span><span class="value">{{ formatBoolean(data.householdBasicProfile.hasRationCard) }}</span></div>
+        <div class="detail-item"><span class="label">Ration Card Number</span><span class="value">{{ formatValue(data.householdBasicProfile.rationCardNumber) }}</span></div>
+        <div class="detail-item"><span class="label">Drinking Water Source</span><span class="value">{{ formatValue(data.householdBasicProfile.drinkingWaterSource) }}</span></div>
+        <div class="detail-item"><span class="label">Ujjwala LPG</span><span class="value">{{ formatBoolean(data.householdBasicProfile.hasUjjwalaLPGConnection) }}</span></div>
+        <div class="detail-item"><span class="label">Household Labour Card</span><span class="value">{{ formatBoolean(data.householdBasicProfile.hasLabourCard) }}</span></div>
+        <div class="detail-item"><span class="label">Household NSKY</span><span class="value">{{ formatBoolean(data.householdBasicProfile.isCoveredUnderNSKY) }}</span></div>
+        <div class="detail-item"><span class="label">Kishan Scheme Coverage</span><span class="value">{{ formatValue(data.householdEntitlement.kishanSchemeCoverage) }}</span></div>
+        <div class="detail-item"><span class="label">Rural Housing Scheme House</span><span class="value">{{ formatBoolean(data.householdEntitlement.hasRuralHousingSchemeHouse) }}</span></div>
+        <div class="detail-item"><span class="label">Individual Household Latrine</span><span class="value">{{ formatBoolean(data.householdEntitlement.hasIndividualHouseholdLatrine) }}</span></div>
+        <div class="detail-item"><span class="label">Electricity Connection</span><span class="value">{{ formatBoolean(data.householdEntitlement.hasElectricityConnection) }}</span></div>
+        <div class="detail-item"><span class="label">MGNREGS Job Card</span><span class="value">{{ formatBoolean(data.householdEntitlement.hasMGNREGSJobCard) }}</span></div>
+        <div class="detail-item"><span class="label">Job Card Number</span><span class="value">{{ formatValue(data.householdEntitlement.fullJobCardNumber) }}</span></div>
+        <div class="detail-item"><span class="label">Jan Dhan Yojana</span><span class="value">{{ formatBoolean(data.householdEntitlement.hasJanDhanYojanaAccount) }}</span></div>
+        <div class="detail-item"><span class="label">Ayushman Bharat</span><span class="value">{{ formatBoolean(data.householdEntitlement.isCoveredUnderAyushmanBharat) }}</span></div>
+        <div class="detail-item"><span class="label">Shram Yogi Maandhan</span><span class="value">{{ formatBoolean(data.householdEntitlement.isEnrolledUnderShramYogiMaandhan) }}</span></div>
+        <div class="detail-item"><span class="label">PMJJBY</span><span class="value">{{ formatBoolean(data.householdEntitlement.isCoveredUnderPMJJBY) }}</span></div>
+        <div class="detail-item"><span class="label">PMSBY</span><span class="value">{{ formatBoolean(data.householdEntitlement.isCoveredUnderPMSBY) }}</span></div>
+        <div class="detail-item"><span class="label">Atal Pension</span><span class="value">{{ formatBoolean(data.householdEntitlement.atalPension) }}</span></div>
+        <div class="detail-item"><span class="label">Old Age Pension</span><span class="value">{{ formatBoolean(data.householdEntitlement.oldagePension) }}</span></div>
+        <div class="detail-item"><span class="label">Widow Pension</span><span class="value">{{ formatBoolean(data.householdEntitlement.widowPension) }}</span></div>
+        <div class="detail-item"><span class="label">Disability Pension</span><span class="value">{{ formatBoolean(data.householdEntitlement.disabilityPension) }}</span></div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Occupation, Land & Migration</h3>
+        <p>Livelihood profile, land information, irrigation, and migration status.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item"><span class="label">Primary Occupation</span><span class="value">{{ formatValue(data.householdOccupationAndLand.primaryOccupationOfTheFamily) }}</span></div>
+        <div class="detail-item"><span class="label">Other Occupation Details</span><span class="value">{{ formatValue(data.householdOccupationAndLand.otherPrimaryOccupationDetails) }}</span></div>
+        <div class="detail-item"><span class="label">Weaving / Handloom</span><span class="value">{{ formatBoolean(data.householdOccupationAndLand.isFamilyInvolvedInWeavingOrHandloom) }}</span></div>
+        <div class="detail-item"><span class="label">POHI Looms Scheme</span><span class="value">{{ formatBoolean(data.householdOccupationAndLand.isFamilyCoveredUnderPOHI_LoomsScheme) }}</span></div>
+        <div class="detail-item"><span class="label">FRA Claimant Status</span><span class="value">{{ formatValue(data.householdOccupationAndLand.fraClaimantStatus) }}</span></div>
+        <div class="detail-item"><span class="label">FRA Land In Acres</span><span class="value">{{ formatValue(data.householdOccupationAndLand.fra_LandAmountInAcres) }}</span></div>
+        <div class="detail-item"><span class="label">Owns Homestead Patta Land</span><span class="value">{{ formatBoolean(data.householdOccupationAndLand.ownsHomesteadPattaLand) }}</span></div>
+        <div class="detail-item"><span class="label">Approximate Private Land</span><span class="value">{{ formatValue(data.householdOccupationAndLand.approximatePrivateLandHolding) }}</span></div>
+        <div class="detail-item"><span class="label">Irrigation Facility Available</span><span class="value">{{ formatBoolean(data.householdOccupationAndLand.isIrrigationFacilityAvailable) }}</span></div>
+        <div class="detail-item"><span class="label">Sources Of Irrigation</span><span class="value">{{ formatValue(data.householdOccupationAndLand.sourcesOfIrrigation) }}</span></div>
+        <div class="detail-item"><span class="label">Livestock Activity</span><span class="value">{{ formatValue(data.householdOccupationAndLand.involvedInLivestockActivity) }}</span></div>
+        <div class="detail-item"><span class="label">Family Member Migrated In 3 Years</span><span class="value">{{ formatBoolean(data.householdMigrationStatus.hasFamilyMemberMigratedLast3Years) }}</span></div>
+        <div class="detail-item"><span class="label">Advance Taken From Middleman</span><span class="value">{{ formatBoolean(data.householdMigrationStatus.takenAdvanceForMigrationFromMiddleman) }}</span></div>
+        <div class="detail-item"><span class="label">Minor Children Accompanied</span><span class="value">{{ formatValue(data.householdMigrationStatus.minorChildrenAccompaniedMigration) }}</span></div>
+        <div class="detail-item"><span class="label">Women Members Migrated</span><span class="value">{{ formatBoolean(data.householdMigrationStatus.womenMembersMigrated) }}</span></div>
+        <div class="detail-item"><span class="label">Family Contact Mobile</span><span class="value">{{ formatValue(data.householdMigrationStatus.familyContactMobileNo) }}</span></div>
+        <div class="detail-item"><span class="label">Respondent Identity</span><span class="value">{{ formatValue(data.householdMigrationStatus.respondentIdentity) }}</span></div>
+        <div class="detail-item"><span class="label">Geo Location</span><span class="value">{{ formatValue(data.householdBasicProfile.geoLocation) }}</span></div>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo-card" *ngIf="resolveAssetUrl(data.householdBasicProfile.photoPath) as householdPhoto">
+          <span class="label">Household Photo</span>
+          <img [src]="householdPhoto" alt="Household photo" class="detail-photo">
+        </div>
+
+        <div class="photo-card" *ngIf="resolveAssetUrl(data.householdMigrationStatus.respondentPhotoPathOrUrl) as respondentPhoto">
+          <span class="label">Respondent Photo</span>
+          <img [src]="respondentPhoto" alt="Respondent photo" class="detail-photo">
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Family Members</h3>
+        <p>Member-wise household profile, migration details, and individual coverage.</p>
+      </div>
+
+      <div class="member-table-wrap">
+        <table class="member-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Relation</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Qualification</th>
+              <th>Labour Card</th>
+              <th>NSKY</th>
+              <th>Skill Development</th>
+              <th>Migrated</th>
+              <th>Migration Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of familyMembers">
+              <td>{{ formatValue(member.name, '-') }}</td>
+              <td>{{ formatValue(member.relationshipWithHeadOfHousehold, '-') }}</td>
+              <td>{{ formatValue(member.age, '-') }}</td>
+              <td>{{ formatValue(member.gender, '-') }}</td>
+              <td>{{ formatValue(member.educationalQualification, '-') }}</td>
+              <td>{{ formatMemberBoolean(member.memberHasLabourCard) }}</td>
+              <td>{{ formatMemberBoolean(member.memberCoveredUnderNSKY) }}</td>
+              <td>{{ formatMemberBoolean(member.interestInSkillDevelopment) }}</td>
+              <td>{{ member.migratedInLast3Years ? 'Yes' : 'No' }}</td>
+              <td>
+                <ng-container *ngIf="member.migratedInLast3Years; else noMigration">
+                  {{ formatValue(member.destinationState, '-') }},
+                  {{ formatValue(member.periodOfMigration, '-') }},
+                  {{ formatValue(member.sectorOfEngagementDuringMigration, '-') }},
+                  Rs {{ formatValue(member.monthlyRemittanceDuringMigration, '-') }}
+                </ng-container>
+                <ng-template #noMigration>-</ng-template>
+              </td>
+            </tr>
+            <tr *ngIf="familyMembers.length === 0">
+              <td colspan="10" class="empty-members">No family members recorded.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </mat-dialog-content>
+</div>

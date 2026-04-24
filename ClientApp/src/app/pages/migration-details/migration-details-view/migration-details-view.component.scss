@@ -1,0 +1,127 @@
+:host {
+  display: block;
+}
+
+.dialog-shell {
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 34%),
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 38%);
+}
+
+.dialog-header {
+  align-items: flex-start;
+  border-bottom: 1px solid #d9e3f0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.dialog-eyebrow {
+  color: #2563eb;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+}
+
+.dialog-title {
+  color: #102a43;
+  font-size: 1.45rem;
+  margin: 0;
+}
+
+.dialog-subtitle {
+  color: #52606d;
+  margin: 0.35rem 0 0;
+}
+
+.dialog-content {
+  display: grid;
+  gap: 1rem;
+  max-height: 78vh;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.detail-section {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #d9e3f0;
+  border-radius: 1rem;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.06);
+  padding: 1rem;
+}
+
+.section-heading {
+  margin-bottom: 0.9rem;
+}
+
+.section-heading h3 {
+  color: #0f172a;
+  font-size: 1rem;
+  margin: 0 0 0.2rem;
+}
+
+.section-heading p {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.detail-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.detail-item {
+  background: #f8fafc;
+  border-radius: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 80px;
+  padding: 0.85rem 0.95rem;
+}
+
+.label {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.value {
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.meeting-photo {
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  max-height: 320px;
+  object-fit: cover;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .dialog-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dialog-content {
+    padding: 1rem;
+  }
+}

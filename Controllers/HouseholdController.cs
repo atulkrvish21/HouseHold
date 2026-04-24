@@ -855,7 +855,7 @@ try
             new SqlParameter("@sstatus", householdStatusChange.sstatus),
             new SqlParameter("@approvedBy", username),
             new SqlParameter("@approvedDate", DateTime.Now),
-             new SqlParameter("@reason", householdStatusChange.reason),
+            new SqlParameter("@reason", householdStatusChange.reason),
             new SqlParameter("@uniqueId", householdStatusChange.uniqueId)
         );
 

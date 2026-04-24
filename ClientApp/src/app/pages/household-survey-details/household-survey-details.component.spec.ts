@@ -1,31 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 import { of } from 'rxjs';
+import { HouseholdSurveyDetailsComponent } from './household-survey-details.component';
+import { HouseholdSurveyService } from 'src/app/services/household-survey.service';
 
-import { MigrationDetailsComponent } from './migration-details.component';
-import { MigrationSurveyService } from 'src/app/services/migration-survey.service';
-
-class MigrationSurveyServiceStub {
-  getMigrationSurveys() {
+class HouseholdSurveyServiceStub {
+  getHouseholds() {
     return of([]);
   }
 }
 
-describe('MigrationDetailsComponent', () => {
-  let component: MigrationDetailsComponent;
-  let fixture: ComponentFixture<MigrationDetailsComponent>;
+describe('HouseholdSurveyDetailsComponent', () => {
+  let component: HouseholdSurveyDetailsComponent;
+  let fixture: ComponentFixture<HouseholdSurveyDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MigrationDetailsComponent],
+      declarations: [HouseholdSurveyDetailsComponent],
       imports: [
         BrowserAnimationsModule,
         MatButtonModule,
@@ -38,12 +37,11 @@ describe('MigrationDetailsComponent', () => {
         MatTableModule
       ],
       providers: [
-        { provide: MigrationSurveyService, useClass: MigrationSurveyServiceStub }
+        { provide: HouseholdSurveyService, useClass: HouseholdSurveyServiceStub }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(MigrationDetailsComponent);
+    fixture = TestBed.createComponent(HouseholdSurveyDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

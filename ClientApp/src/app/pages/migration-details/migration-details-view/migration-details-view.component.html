@@ -1,0 +1,294 @@
+<div class="dialog-shell">
+  <div class="dialog-header">
+    <div>
+      <p class="dialog-eyebrow">Migration Survey Record</p>
+      <h2 mat-dialog-title class="dialog-title">
+        {{ formatValue(data.respondentName, 'Respondent details') }}
+      </h2>
+      <p class="dialog-subtitle">
+        {{ formatValue(data.district) }} / {{ formatValue(data.block) }} / {{ formatValue(data.gramPanchayat) }}
+      </p>
+    </div>
+
+    <button mat-stroked-button color="primary" type="button" (click)="close()">
+      Close
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Location & Demographics</h3>
+        <p>Core village profile and population snapshot.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">District</span>
+          <span class="value">{{ formatValue(data.district) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Block</span>
+          <span class="value">{{ formatValue(data.block) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Gram Panchayat</span>
+          <span class="value">{{ formatValue(data.gramPanchayat) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Revenue Village</span>
+          <span class="value">{{ formatValue(data.revenueVillage) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Total Households</span>
+          <span class="value">{{ formatValue(data.totalHouseholds) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Male Population</span>
+          <span class="value">{{ formatValue(data.malePopulation) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Female Population</span>
+          <span class="value">{{ formatValue(data.femalePopulation) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Total Population</span>
+          <span class="value">{{ formatValue(data.totalPopulation) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Infrastructure & Amenities</h3>
+        <p>Village electrification, road, sanitation, and public utility coverage.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">Internal Village Roads</span>
+          <span class="value">{{ formatBoolean(data.internalVillageRoads) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Road Requirement</span>
+          <span class="value">{{ formatValue(data.internalVillageRoadsRequirement) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Internal Drains Available</span>
+          <span class="value">{{ formatBoolean(data.internalDrainsAvailable) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Drains Properly Functional</span>
+          <span class="value">{{ formatBoolean(data.drainsProperlyFunctional) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Electrified</span>
+          <span class="value">{{ formatBoolean(data.isElectrified) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Street Lighting Available</span>
+          <span class="value">{{ formatBoolean(data.streetLightingAvailable) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Street Lighting Type</span>
+          <span class="value">{{ formatValue(data.streetLightingType) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Village Connected To GP</span>
+          <span class="value">{{ formatValue(data.villageConnectedToGP) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Road Length To GP</span>
+          <span class="value">{{ formatDistance(data.lengthAllWeatherRoadToGP) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">GP Connected To PWD / Highway</span>
+          <span class="value">{{ formatBoolean(data.gpConnectedToPWDOrHighway) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Road Length To Highway</span>
+          <span class="value">{{ formatDistance(data.lengthAllWeatherRoadToHighway) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Drinking Water Source</span>
+          <span class="value">{{ formatValue(data.drinkingWaterSource) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">All Households With Toilets</span>
+          <span class="value">{{ formatBoolean(data.allHouseholdsWithToilets) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Migration & Community Services</h3>
+        <p>Migration totals, education, health, and shared facilities.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">Men In Migration</span>
+          <span class="value">{{ formatValue(data.menInMigration) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Women In Migration</span>
+          <span class="value">{{ formatValue(data.womenInMigration) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Minor Children In Migration</span>
+          <span class="value">{{ formatValue(data.minorChildrenInMigration) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Total Persons In Migration</span>
+          <span class="value">{{ formatValue(data.totalPersonsInMigration) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Anganwadi Centre</span>
+          <span class="value">{{ formatBoolean(data.anganwadiCentre) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Primary School Available</span>
+          <span class="value">{{ formatBoolean(data.primarySchoolAvailable) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Secondary School Within 3 km</span>
+          <span class="value">{{ formatBoolean(data.secondarySchoolWithin3km) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Sub Health Centre</span>
+          <span class="value">{{ formatBoolean(data.subHealthCentre) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Community Centre</span>
+          <span class="value">{{ formatBoolean(data.communityCentreAvailable) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Common Shed For WSHG</span>
+          <span class="value">{{ formatBoolean(data.commonShedForWSHG) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Playground Available</span>
+          <span class="value">{{ formatBoolean(data.playgroundAvailable) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Community Tanks</span>
+          <span class="value">{{ formatValue(data.communityTanks) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Livelihood, Connectivity & Irrigation</h3>
+        <p>Service access, irrigation assets, and local livelihood support.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">Mobile Network Coverage</span>
+          <span class="value">{{ formatBoolean(data.mobileNetworkCoverage) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Digital Connectivity</span>
+          <span class="value">{{ formatBoolean(data.digitalConnectivity) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Drying Yard</span>
+          <span class="value">{{ formatBoolean(data.dryingYard) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">PDS Available</span>
+          <span class="value">{{ formatBoolean(data.pdsAvailable) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Distance Of PDS</span>
+          <span class="value">{{ formatDistance(data.distanceOfPDS) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Banking / Post Office Nearby</span>
+          <span class="value">{{ formatBoolean(data.bankingPostOfficeNearby) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Water From Irrigation Project</span>
+          <span class="value">{{ formatBoolean(data.waterFromIrrigationProject) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Repair / New Distribution Canal Required</span>
+          <span class="value">{{ formatBoolean(data.repairOrNewDistributionCanalRequired) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Length Of Distribution Canal</span>
+          <span class="value">{{ formatDistance(data.lengthOfDistributionCanal) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Functional Lift Irrigation</span>
+          <span class="value">{{ formatBoolean(data.functionalLiftIrrigation) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Scope Of New Lift Irrigation</span>
+          <span class="value">{{ formatBoolean(data.scopeOfNewLiftIrrigation) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Functional Check Dams</span>
+          <span class="value">{{ formatBoolean(data.functionalCheckDams) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Scope Of New Check Dams</span>
+          <span class="value">{{ formatBoolean(data.scopeOfNewCheckDams) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Functional Distribution Canal</span>
+          <span class="value">{{ formatBoolean(data.functionalDistributionCanal) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Scope Of New Distribution Canal</span>
+          <span class="value">{{ formatValue(data.scopeOfNewDistributionCanal) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="section-heading">
+        <h3>Respondent & Survey Metadata</h3>
+        <p>Who provided the response and how the survey was recorded.</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">Respondent Name</span>
+          <span class="value">{{ formatValue(data.respondentName) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Identity Role</span>
+          <span class="value">{{ formatValue(data.identityRole) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Survey Process</span>
+          <span class="value">{{ formatValue(data.surveyProcess) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Respondent Mobile</span>
+          <span class="value">{{ formatValue(data.respondentMobile) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Geo Location</span>
+          <span class="value">{{ formatValue(data.geoLocation) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Enumerator Name</span>
+          <span class="value">{{ formatValue(data.enumeratorName) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Survey Date</span>
+          <span class="value">{{ data.surveyDate | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <div class="photo-card" *ngIf="resolvePhotoUrl(data.meetingPhotoPath) as photoUrl">
+        <span class="label">Meeting Photo</span>
+        <img [src]="photoUrl" alt="Meeting photo" class="meeting-photo">
+      </div>
+    </section>
+  </mat-dialog-content>
+</div>

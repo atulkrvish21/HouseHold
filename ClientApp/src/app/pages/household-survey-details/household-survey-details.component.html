@@ -1,14 +1,14 @@
-<section class="migration-page">
+<section class="household-page">
   <div class="page-header">
     <div>
-      <p class="eyebrow">Migration Survey</p>
-      <h1>Migration Details</h1>
+      <p class="eyebrow">Household Survey</p>
+      <h1>Household Survey Details</h1>
       <p class="subtitle">
-        Review migration survey records and open a full section-wise detail view for each entry.
+        Browse submitted household records and open a full section-wise detail view for each survey.
       </p>
     </div>
 
-    <button mat-stroked-button color="primary" type="button" (click)="loadMigrationSurveys()" [disabled]="loading">
+    <button mat-stroked-button color="primary" type="button" (click)="loadHouseholds()" [disabled]="loading">
       Refresh
     </button>
   </div>
@@ -16,11 +16,11 @@
   <mat-card class="list-card">
     <div class="toolbar">
       <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Search records</mat-label>
+        <mat-label>Search households</mat-label>
         <input
           matInput
           type="text"
-          placeholder="Search by respondent, location, enumerator or phone"
+          placeholder="Search by HH ID, head name, location or entry user"
           (input)="applyFilter($any($event.target).value)"
         />
       </mat-form-field>
@@ -32,54 +32,59 @@
 
     <div class="loading-state" *ngIf="loading">
       <mat-spinner diameter="42"></mat-spinner>
-      <p>Loading migration survey records...</p>
+      <p>Loading household survey records...</p>
     </div>
 
     <div class="error-state" *ngIf="!loading && errorMessage">
       <p>{{ errorMessage }}</p>
-      <button mat-flat-button color="primary" type="button" (click)="loadMigrationSurveys()">
+      <button mat-flat-button color="primary" type="button" (click)="loadHouseholds()">
         Try Again
       </button>
     </div>
 
     <div class="table-shell" *ngIf="!loading && !errorMessage">
       <div class="table-wrap">
-        <table mat-table [dataSource]="dataSource" class="migration-table">
-          <ng-container matColumnDef="respondentName">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
+        <table mat-table [dataSource]="dataSource" class="household-table">
+           <ng-container matColumnDef="entryDate">
+            <th mat-header-cell *matHeaderCellDef>Entry Date</th>
             <td mat-cell *matCellDef="let row">
-              {{ row.respondentName || 'N/A' }}
+              {{ row.householdBasicProfile?.entryDate 
+    ? (row.householdBasicProfile.entryDate | date:'yyyy-MM-dd') 
+    : 'N/A' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="headName">
+            <th mat-header-cell *matHeaderCellDef>Head Name</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.householdBasicProfile?.headOfTheHouseholdNameAsPerAadhar || 'N/A' }}
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="identityRole">
-            <th mat-header-cell *matHeaderCellDef>Identity / Role</th>
-            <td mat-cell *matCellDef="let row">
-              {{ row.identityRole || 'N/A' }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="district">
+          <ng-container matColumnDef="location">
             <th mat-header-cell *matHeaderCellDef>Location</th>
             <td mat-cell *matCellDef="let row">
               <div class="location-cell">
-                <strong>{{ row.district || 'N/A' }}</strong>
-                <span>{{ row.block || 'N/A' }} / {{ row.gramPanchayat || 'N/A' }}</span>
+                <strong>{{ row.householdBasicProfile?.district || 'N/A' }}</strong>
+                <span>
+                  {{ row.householdBasicProfile?.block || 'N/A' }} /
+                  {{ row.householdBasicProfile?.gramPanchayat || 'N/A' }} /
+                  {{ row.householdBasicProfile?.revenueVillage || 'N/A' }}
+                </span>
               </div>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="block">
-            <th mat-header-cell *matHeaderCellDef>Survey Date</th>
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
             <td mat-cell *matCellDef="let row">
-              {{ row.surveyDate | date:'mediumDate' }}
+              {{ row.householdBasicProfile?.socialCategory || 'N/A' }}
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="totalPersonsInMigration">
-            <th mat-header-cell *matHeaderCellDef>Migration Count</th>
+          <ng-container matColumnDef="familyMembers">
+            <th mat-header-cell *matHeaderCellDef>Members</th>
             <td mat-cell *matCellDef="let row">
-              {{ row.totalPersonsInMigration }}
+              {{ row.householdBasicProfile?.totalFamilyMembers ?? row.householdFamilyMember?.length ?? 0 }}
             </td>
           </ng-container>
 
@@ -87,8 +92,7 @@
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let row">
               <button mat-flat-button color="primary" type="button" (click)="openDetails(row)">
-               
-                 View Details
+                View Details
               </button>
             </td>
           </ng-container>
@@ -97,7 +101,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           <tr class="empty-row" *matNoDataRow>
             <td class="empty-cell" [attr.colspan]="displayedColumns.length">
-              No migration survey records match the current filter.
+              No household survey records match the current filter.
             </td>
           </tr>
         </table>
@@ -106,7 +110,7 @@
       <mat-paginator
         [length]="dataSource.filteredData.length"
         [pageSize]="10"
-        [pageSizeOptions]="[10, 25, 50, 100]"
+        [pageSizeOptions]="[5, 10, 25, 50]"
         showFirstLastButtons>
       </mat-paginator>
     </div>
